@@ -27,6 +27,7 @@ Preload.prototype = {
     this.load.image('tcell-48', 'assets/tcell-48.png');
     this.load.image('thymus-96', 'assets/thymus-96.png');
     this.load.image('white-blood-cell-32', 'assets/white-blood-cell-32.png');
+    this.load.image('title3', 'assets/title-small-3.png');
   },
   create: function() {
     this.asset.cropEnabled = false;
