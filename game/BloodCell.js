@@ -18,6 +18,9 @@ BloodCell.prototype = {
 			case "white":
 				this.sprite = game.add.sprite(x, y, 'white-blood-cell-32');
 			break;
+			case "hiv":
+				this.sprite = game.add.sprite(x, y, 'hiv');
+			break;
 		}
 
 		game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
@@ -25,5 +28,9 @@ BloodCell.prototype = {
 
 	update: function () {
 		//this.sprite.x += 10;
+	},
+
+	moveTo: function (destination) {
+		game.physics.moveTowardsObject(this.sprite, destination, 100);
 	}
 };

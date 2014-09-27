@@ -32,7 +32,7 @@ function global_findCellObjByIndexValue ( arr, index ) {
 function Play() {}
 Play.prototype = {
   preload: function () {
-    testwbc = new BloodCell(this.game);
+    //testwbc = new BloodCell(this.game);
   },
   create: function() {
     // load the map
@@ -40,19 +40,17 @@ Play.prototype = {
     // I don't know
     this.game.physics.startSystem( Phaser.Physics.ARCADE );
     // how often to spawn white blood cells
-    //var wbcEventLoop = this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
+    var wbcEventLoop = this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
     // how often to spawn HIV
-    //var hivEventLoop = this.game.time.events.loop( 1000, this.createHIV, this );
+    var hivEventLoop = this.game.time.events.loop( 1000, this.createHIV, this );
     // Create contol points
     controlPoint = new ControlPoint(this.game);
     controlPoint.create("thymus", 150, 150);
-    controlPoint.create("marrow", 0, 0);
-    controlPoint.create("lymph", 300, 0);
-    testwbc.create("white", 100, 100);
+    //testwbc.create("white", 100, 100);
   },
   // update loop
   update: function() {
-    testwbc.update();
+    //testwbc.moveTo(controlPoint.sprite);
   },
   /*
   Do this shit later
@@ -76,65 +74,34 @@ Play.prototype = {
     Creates HIV
   */
   createHIV: function() {
-    var sprite = this.game.add.sprite(
-      this.randomNum( global_WIDTH ), // place the HIV at random starting x value
-      0 - global_HIV_HEIGHT, // place HIV at bottom of screen
-      "hiv"
-    );
-    // Create a tween on the HIV
-    var tween = this.game.add.tween( sprite );
-    /*
-      Tween will move south to north over 6 secs
-      TODO: Replace with pathfinding once we have enemies (HIV)?
-    */
-    tween.to({ y: global_HEIGHT + global_HIV_HEIGHT }, 6000); // to test, change y to "0" or less to watch it delete
-    // create the HIV object
+    var hivcell = new BloodCell(this.game);
+    hivcell.create("hiv", 1000, this.randomNum(1080));
+
     var HIV = {
       "index": global_hivCellNum, // index HIV -- age
-      "tween": tween, // tween index
-      "sprite": sprite // the sprite
+      "cell": hivcell, // cell index
     };
     // store the HIV object in array
     global_hivCellArr.push( HIV );
-    // index of given object
-    var dex = global_hivCellNum + 0;
-    // define what happens when tween finishes
-    tween.onComplete.add( this.removeHIV, dex );
-    // start tweening
-    tween.start();
-    // ++ bitch
+
+    // ++ bit
     global_hivCellNum++;
   },
   /*
     Creates white blood cells
   */
   createWhiteBloodCell: function() {
-    var sprite = this.game.add.sprite(
-      this.randomNum( global_WIDTH ), // place the WBC at random starting x value
-      global_HEIGHT, // place WBC at bottom of screen
-      "white-blood-cell-32"
-    );
-    // Create a tween on the WBC
-    var tween = this.game.add.tween( sprite );
-    /*
-      Tween will move south to north over 6 secs
-      TODO: Replace with pathfinding once we have enemies (HIV)?
-    */
-    tween.to({ y: -global_WBC_HEIGHT }, 6000); // to test, change y to "0" or less to watch it delete
-    // create the WBC object
+    var cell = new BloodCell(this.game);
+    cell.create("white", 0, this.randomNum(1080));
+
     var WBC = {
       "index": global_whiteBloodCellNum, // index WBC -- age
-      "tween": tween, // tween index
-      "sprite": sprite // the sprite
+      "cell": cell, // cell index
     };
     // store the WBC object in array
     global_whiteBloodCellArr.push( WBC );
-    var dex = global_whiteBloodCellNum + 0;
-    // define what happens when tween finishes
-    tween.onComplete.add( this.removeWBC, dex );
-    // start tweening
-    tween.start();
-    // ++ bitch
+
+    // ++ bit
     global_whiteBloodCellNum++;
   },
   // generates 1 to "num"
