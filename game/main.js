@@ -1,16 +1,15 @@
-'use strict';
+var game
+  , gameWidth = 1662
+  , gameHeight = 940;
 
-//global variables
 window.onload = function () {
-  var game = new Phaser.Game(1662, 940, Phaser.AUTO, 'hiv_game');
-
+  // load phaser engine
+  game = new Phaser.Game( gameWidth, gameHeight, Phaser.AUTO );
   // Game States
-  game.state.add('boot', require('./states/boot'));
-  game.state.add('gameover', require('./states/gameover'));
-  game.state.add('menu', require('./states/menu'));
-  game.state.add('play', require('./states/play'));
-  game.state.add('preload', require('./states/preload'));
-  
-
+  game.state.add('boot', Boot);
+  game.state.add('preload', Preload);
+  game.state.add('menu', Menu);
+  game.state.add('play', Play);
+  game.state.add('gameover', GameOver);
   game.state.start('boot');
 };

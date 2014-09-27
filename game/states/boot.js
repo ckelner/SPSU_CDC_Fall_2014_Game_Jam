@@ -1,9 +1,4 @@
-
-'use strict';
-
-function Boot() {
-}
-
+function Boot() {}
 Boot.prototype = {
   preload: function() {
     this.load.image('preloader', 'assets/preloader.gif');
@@ -13,5 +8,3 @@ Boot.prototype = {
     this.game.state.start('preload');
   }
 };
-
-module.exports = Boot;
