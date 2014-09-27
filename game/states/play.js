@@ -14,6 +14,8 @@ global_whiteBloodCellNum=0;
 global_hivCellArr=[];
 // HIV counter
 global_hivCellNum=0;
+// Control point containers
+var controlPoint = null;
 // shitty global functions
 function global_findCellObjByIndexValue ( arr, index ) {
   var arrLen = arr.length;
@@ -34,6 +36,11 @@ Play.prototype = {
     var wbcEventLoop = this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
     // how often to spawn HIV
     var hivEventLoop = this.game.time.events.loop( 1000, this.createHIV, this );
+    // Create contol points
+    controlPoint = new ControlPoint(this.game);
+    controlPoint.create("thymus", 150, 150);
+    controlPoint.create("marrow", 0, 0);
+    controlPoint.create("lymph", 300, 0);
   },
   // update loop
   update: function() {},
