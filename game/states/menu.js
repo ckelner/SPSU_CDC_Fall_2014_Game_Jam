@@ -1,11 +1,6 @@
-
-'use strict';
 function Menu() {}
-
 Menu.prototype = {
-  preload: function() {
-
-  },
+  preload: function() {},
   create: function() {
     var style = { font: '65px Arial', fill: '#ffffff', align: 'center'};
     this.sprite = this.game.add.sprite(this.game.world.centerX, 150, 'hiv');
@@ -24,5 +19,3 @@ Menu.prototype = {
     }
   }
 };
-
-module.exports = Menu;
