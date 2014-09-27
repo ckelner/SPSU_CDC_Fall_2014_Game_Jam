@@ -40,7 +40,7 @@ Play.prototype = {
     // how often to spawn white blood cells
     //var wbcEventLoop = this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
     // how often to spawn HIV
-    var hivEventLoop = this.game.time.events.loop( 1000, this.createHIV, this );
+    //var hivEventLoop = this.game.time.events.loop( 1000, this.createHIV, this );
     // Create contol points
     controlPoint = new ControlPoint(this.game);
     controlPoint.create("thymus", 150, 150);
