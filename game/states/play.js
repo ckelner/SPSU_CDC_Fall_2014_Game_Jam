@@ -62,7 +62,7 @@ Play.prototype = {
     var sprite = this.game.add.sprite(
       this.randomNum( global_WIDTH ), // place the HIV at random starting x value
       0 - global_HIV_HEIGHT, // place HIV at bottom of screen
-      "hiv_32" // "hiv" == the preloaded image from preload.js
+      "hiv"
     );
     // Create a tween on the HIV
     var tween = this.game.add.tween( sprite );
@@ -95,7 +95,7 @@ Play.prototype = {
     var sprite = this.game.add.sprite(
       this.randomNum( global_WIDTH ), // place the WBC at random starting x value
       global_HEIGHT, // place WBC at bottom of screen
-      "wbc" // "wbc" == the preloaded image from preload.js
+      "white-blood-cell-32"
     );
     // Create a tween on the WBC
     var tween = this.game.add.tween( sprite );

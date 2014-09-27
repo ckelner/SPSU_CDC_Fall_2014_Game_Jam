@@ -3,7 +3,7 @@ Menu.prototype = {
   preload: function() {},
   create: function() {
     var style = { font: '65px Arial', fill: '#ffffff', align: 'center'};
-    this.sprite = this.game.add.sprite(this.game.world.centerX, 150, 'hiv');
+    this.sprite = this.game.add.sprite(this.game.world.centerX, 150, 'HIV-virus');
     this.sprite.anchor.setTo(0.5, 0.5);
 
     this.titleText = this.game.add.text(this.game.world.centerX, 400, 'Battle HIV!', style);
