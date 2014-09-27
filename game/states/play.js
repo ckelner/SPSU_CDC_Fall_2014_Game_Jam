@@ -35,6 +35,8 @@ Play.prototype = {
     testwbc = new BloodCell(this.game);
   },
   create: function() {
+    // load the map
+    hiv_game.map.load();
     // I don't know
     this.game.physics.startSystem( Phaser.Physics.ARCADE );
     // how often to spawn white blood cells

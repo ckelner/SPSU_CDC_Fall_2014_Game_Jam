@@ -1,4 +1,5 @@
-var game
+var hiv_game = {} // parent container object for game world
+  , game
   , gameWidth = 1662
   , gameHeight = 940;
 
@@ -12,4 +13,8 @@ window.onload = function () {
   game.state.add('play', Play);
   game.state.add('gameover', GameOver);
   game.state.start('boot');
+  hiv_game.game = game;
+  // new map
+  var map = new Map();
+  hiv_game.map = map;
 };
