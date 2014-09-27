@@ -16,6 +16,8 @@ global_hivCellArr=[];
 global_hivCellNum=0;
 // Control point containers
 var controlPoint = null;
+// Test blood cell
+var testwbc = null;
 // shitty global functions
 function global_findCellObjByIndexValue ( arr, index ) {
   var arrLen = arr.length;
@@ -29,13 +31,16 @@ function global_findCellObjByIndexValue ( arr, index ) {
 
 function Play() {}
 Play.prototype = {
+  preload: function () {
+    testwbc = new BloodCell(this.game);
+  },
   create: function() {
     // load the map
     hiv_game.map.load();
     // I don't know
     this.game.physics.startSystem( Phaser.Physics.ARCADE );
     // how often to spawn white blood cells
-    var wbcEventLoop = this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
+    //var wbcEventLoop = this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
     // how often to spawn HIV
     var hivEventLoop = this.game.time.events.loop( 1000, this.createHIV, this );
     // Create contol points
@@ -43,9 +48,12 @@ Play.prototype = {
     controlPoint.create("thymus", 150, 150);
     controlPoint.create("marrow", 0, 0);
     controlPoint.create("lymph", 300, 0);
+    testwbc.create("white", 100, 100);
   },
   // update loop
-  update: function() {},
+  update: function() {
+    testwbc.update();
+  },
   /*
   Do this shit later
   genericCreateThing: function( startHeight, startWidth, spriteName, endHeight,
