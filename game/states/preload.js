@@ -10,7 +10,7 @@ Preload.prototype = {
     // run onLoadComplete after assets get loaded
     this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
     this.load.setPreloadSprite(this.asset);
-    // load all the assets [ABCs!]
+    // load all the images [ABCs!]
     this.load.image('b-cell-plasma', 'assets/b-cell-plasma.png');
     this.load.image('b-cell-spawn', 'assets/b-cell-spawn.png');
     this.load.image('b-cell', 'assets/b-cell.png');
@@ -19,7 +19,7 @@ Preload.prototype = {
     this.load.image('hit-25x13', 'assets/hit-25x13.png');
     this.load.image('HIV-virus', 'assets/HIV-virus.png');
     this.load.image('hiv', 'assets/hiv.png'); // 32x32
-    this.load.image('hiv', 'assets/kick-n-kill-8.png'); // 32x32
+    this.load.image('hiv', 'assets/kick-n-kill-8.png');
     this.load.image('lymph-96', 'assets/lymph-96.png');
     this.load.image('macrophage-64', 'assets/macrophage-64.png');
     this.load.image('map-tiles', 'assets/map-tiles.png');
@@ -27,6 +27,8 @@ Preload.prototype = {
     this.load.image('tcell-48', 'assets/tcell-48.png');
     this.load.image('thymus-96', 'assets/thymus-96.png');
     this.load.image('white-blood-cell-32', 'assets/white-blood-cell-32.png');
+    // load the jsons!
+    this.game.load.tilemap('body-map', 'game/map/map.json', null, Phaser.Tilemap.TILED_JSON);
   },
   create: function() {
     this.asset.cropEnabled = false;
