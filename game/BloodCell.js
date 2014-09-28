@@ -1,9 +1,7 @@
 BloodCell = function(game) {
 	this.game = game;
 	this.sprite = null;
-	this.moveSpeed = 1;
-	this.destX = 0;
-	this.destY = 0;
+  this.cellType = null;
 };
 
 BloodCell.prototype = {
@@ -17,9 +15,11 @@ BloodCell.prototype = {
 		switch (type) {
 			case "white":
 				this.sprite = game.add.sprite(x, y, 'white-blood-cell-32');
+        this.cellType = type;
 			break;
 			case "hiv":
 				this.sprite = game.add.sprite(x, y, 'hiv');
+        this.cellType = type;
 			break;
 		}
 
@@ -34,17 +34,7 @@ BloodCell.prototype = {
 	},
   goToNearestTarget: function(sprite) {
     var pos = this.findNearestControlPoint( sprite );
-    //var tween = this.game.add.tween( sprite );
-    //tween.to({ x: pos.x, y: pos.y }, 6000);
-    //tween.start();
-    /*if( pos.x === sprite.position.x &&
-      pos.y === sprite.position.y ) {
-      sprite.body.acceleration.set(0);
-    } else {*/
-    //var angle = this.findAngleToTarget( sprite.position, pos );
-    //sprite.rotation = angle;
     sprite.rotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pos);
-   // console.log(angle);
     hiv_game.game.physics.arcade.velocityFromRotation(sprite.rotation, 100, sprite.body.velocity);
     //}
   },
@@ -64,9 +54,11 @@ BloodCell.prototype = {
     var target = null;
     var bestDistance = null;
     hiv_game.controlPoints.forEach(function(cp) {
-      var cpPosX = cp.position.x;
-      var cpPosY = cp.position.y;
-      var distance = Math.sqrt(Math.pow((cpPosX - spritePosX), 2) + Math.pow((cpPosY - spritePosY), 2));
+      if (cp.owner == "none" || cp.owner != this.cellType) {
+        var cpPosX = cp.getSprite().position.x;
+        var cpPosY = cp.getSprite().position.y;
+        var distance = Math.sqrt(Math.pow((cpPosX - spritePosX), 2) + Math.pow((cpPosY - spritePosY), 2));
+      }
       //if( Math.floor(distance) === 0 ) {
       //  target = cp.position;
       //} else {
@@ -75,11 +67,11 @@ BloodCell.prototype = {
         } else {
           if( bestDistance > distance ) {
             bestDistance = distance;
-            target = cp.position;
+            target = cp.getSprite().position;
           }
         }
         if( !target ) {
-          target = cp.position;
+          target = cp.getSprite().position;
         }
       //}
     });

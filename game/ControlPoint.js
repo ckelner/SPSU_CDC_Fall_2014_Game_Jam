@@ -1,14 +1,19 @@
 ControlPoint = function(game) {
 	this.game = game;
 	this.sprite = null;
-  this.eastWestLaneBuffer=200;
-  this.northSouthLaneBuffer=50;
+	this.owner = "none";
+ 	this.eastWestLaneBuffer=200;
+ 	this.northSouthLaneBuffer=50;
 };
 
 ControlPoint.prototype = {
 
 	preload: function () {
 
+	},
+
+	getSprite: function () {
+		return this.sprite;
 	},
 
 	create: function (type, x, y) {
@@ -25,7 +30,7 @@ ControlPoint.prototype = {
 				this.sprite = game.add.sprite(x, y, 'lymph-96');
 			break;
 		}
-    return this.sprite;
+    return this;
 	},
 
 	update: function () {
