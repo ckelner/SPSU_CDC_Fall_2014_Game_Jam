@@ -53,6 +53,8 @@ Play.prototype = {
       this.tickityTock = _jump;
       this.createWhiteBloodCell();
       this.createHIV();
+      this.createHIV();
+      this.createHIV();
       this.backgroundColorChanger();
     }
     var wbcGroup = game.add.group();
@@ -98,7 +100,7 @@ Play.prototype = {
         cell = s2GameObj;
         cp = s1GameObj;
       }
-      
+
       cp.owner = cell.cellType;
       /*var cellSprite = cell.getSprite();
       var cpSprite = cp.getSprite();
@@ -129,6 +131,16 @@ Play.prototype = {
     } else if (s2SpriteType.type == "controlpoint") {
       s2GameObj.owner == s1GameObj.cellType;
     }
+
+    if (s1SpriteType.type == "cell" && s2SpriteType.type == "cell") {
+      if (s1SpriteType.spec == "white" && s2SpriteType.spec != "white") {
+        s1GameObj.pvp();
+
+      } else if (s1SpriteType.spec == "hiv" && s2SpriteType.spec != "hiv") {
+        s2GameObj.pvp();
+      }
+    }
+
     //console.log("s1Dir: " + s1Dir + " -- s2Dir: " + s2Dir);
     // turn them slightly away from each other?
     if( s1Dir > s2Dir ) {

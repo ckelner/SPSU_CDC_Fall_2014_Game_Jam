@@ -8,6 +8,7 @@ BloodCell = function() {
   this.giveUpMoveCloserRange = 45;
   this.speed = 100;
   this.isMoving = false;
+  this.health = 100;
   this.x = null;
   this.y = null;
   this.targetX = null;
@@ -45,6 +46,14 @@ BloodCell.prototype = {
   },
   getSprite: function () {
     return this.sprite;
+  },
+  pvp: function () {
+    if (this.cellType == "white") {
+      this.health -= 1;
+    }
+    if (this.health < 0) {
+      this.sprite.kill();
+    }
   },
   goToNearestTarget: function(sprite, cellType) {
     var target = this.findNearestControlPoint( sprite, cellType );
