@@ -8,9 +8,10 @@ Play.prototype = {
     this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
     // how often to spawn HIV
     this.game.time.events.loop( 1000, this.createHIV, this );
-    // Create contol points
     this.createControlPoint("thymus")
     this.createControlPoint("marrow");
+    this.createControlPoint("marrow");
+    this.createControlPoint("lymph");
     this.createControlPoint("lymph");
   },
   doThemBackGroundThings: function() {
@@ -44,7 +45,7 @@ Play.prototype = {
     hiv_game.rBackground1.angle += 0.1;
     hiv_game.rBackground2.angle += 0.2;  
   },
-  createControlPoint: function(type) {
+  createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint(this.game);
     var x = this.randomNum(
       cPoint.eastWestLaneBuffer,

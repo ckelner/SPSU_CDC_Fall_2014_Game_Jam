@@ -4,6 +4,7 @@ BloodCell = function(game) {
   this.moveSpeed = 1;
   this.destX = 0;
   this.destY = 0;
+  this.cellType = null;
 };
 BloodCell.prototype = {
   create: function (type, x, y) {
@@ -45,19 +46,21 @@ BloodCell.prototype = {
     var target = null;
     var bestDistance = null;
     hiv_game.controlPoints.forEach(function(cp) {
-      var cpPosX = cp.position.x;
-      var cpPosY = cp.position.y;
-      var distance = Math.sqrt(Math.pow((cpPosX - spritePosX), 2) + Math.pow((cpPosY - spritePosY), 2));
+      if (cp.owner == "none" || cp.owner != this.cellType) {
+        var cpPosX = cp.getSprite().position.x;
+        var cpPosY = cp.getSprite().position.y;
+        var distance = Math.sqrt(Math.pow((cpPosX - spritePosX), 2) + Math.pow((cpPosY - spritePosY), 2));
+      }
       if( !bestDistance ) {
         bestDistance = distance;
       } else {
         if( bestDistance > distance ) {
           bestDistance = distance;
-          target = cp.position;
+          target = cp.getSprite().position;
         }
       }
       if( !target ) {
-        target = cp.position;
+        target = cp.getSprite().position;
       }
     });
     return target;
