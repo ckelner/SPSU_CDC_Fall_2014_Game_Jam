@@ -1,6 +1,6 @@
 BloodCell = function() {
   this.sprite = null;
-  this.moveSpeed = 1;
+  this.moveSpeed = 200;
   this.destX = 0;
   this.destY = 0;
   this.cellType = null;
@@ -27,6 +27,11 @@ BloodCell.prototype = {
     hiv_game.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
     this.sprite.gameObject = this;
     this.sprite.typeOfSprite = { "type": "cell", "spec": type };
+    this.sprite.anchor.setTo(0.5,0.5);
+    // do some dumbass adjustment for stupid physics shit
+    if( type === "hiv" ) {
+
+    }
     return this;
   },
   update: function () {
@@ -108,7 +113,7 @@ BloodCell.prototype = {
       this.setDirection(possibleRotation);
     }
     this.sprite.rotation = this.direction;
-    hiv_game.game.physics.arcade.velocityFromRotation(this.sprite.rotation, 100, this.sprite.body.velocity);
+    hiv_game.game.physics.arcade.velocityFromRotation(this.sprite.rotation, this.moveSpeed, this.sprite.body.velocity);
   },
   findNearestControlPoint: function( sprite ) {
     var spritePosX = sprite.position.x;
