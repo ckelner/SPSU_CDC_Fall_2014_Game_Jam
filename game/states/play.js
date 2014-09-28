@@ -6,11 +6,12 @@ Play.prototype = {
   create: function() {
     this.doThemBackGroundThings();
     hiv_game.game.physics.startSystem( Phaser.Physics.ARCADE );
-    this.createControlPoint("thymus")
-    this.createControlPoint("marrow");
-    this.createControlPoint("marrow");
-    this.createControlPoint("lymph");
-    this.createControlPoint("lymph");
+    // Create contol points
+    this.createControlPoint("thymus", 800, 450)
+    this.createControlPoint("marrow", 300, 300);
+    this.createControlPoint("marrow", 1200, 300);
+    this.createControlPoint("lymph", 1200, 700);
+    this.createControlPoint("lymph", 300, 830);
     this.jumpStart = hiv_game.game.time.now;
   },
   doThemBackGroundThings: function() {
@@ -31,19 +32,6 @@ Play.prototype = {
     hiv_game.rBackground2 = this.game.add.sprite(this.game.world.centerX,-100, 'rBackground'); 
     hiv_game.rBackground2.anchor.setTo(0.5,0.5);
     hiv_game.rBackground2.scale.setTo(3, 3);
-
-    //hiv_game.map.load();
-    this.game.physics.startSystem( Phaser.Physics.ARCADE );
-    // how often to spawn white blood cells
-    this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
-    // how often to spawn HIV
-    this.game.time.events.loop( 1000, this.createHIV, this );
-    // Create contol points
-    this.createControlPoint("thymus", 800, 450)
-    this.createControlPoint("marrow", 0, 0);
-    this.createControlPoint("marrow", 1565, 830);
-    this.createControlPoint("lymph", 1565, 0);
-    this.createControlPoint("lymph", 0, 830);
   },
   update: function() {
     // calc the amount of time that has passed and use it to spawn shit
@@ -92,18 +80,25 @@ Play.prototype = {
     var s2GameObj = spriteOne.gameObject;
     var s1Dir = s1GameObj.getDirection();
     var s2Dir = s2GameObj.getDirection();
-    console.log("s1Dir: " + s1Dir + " -- s2Dir: " + s2Dir);
+    //console.log("s1Dir: " + s1Dir + " -- s2Dir: " + s2Dir);
+    // turn them slightly away from each other?
+    if( s1Dir > s2Dir ) {
+      s1Dir
+    } else {
+
+    }
   },
   createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint();
-    var x = hiv_game.randomNum(
+    // un comment for random spots
+    /*var x = hiv_game.randomNum(
       cPoint.eastWestLaneBuffer,
       (hiv_game.game.width-(cPoint.eastWestLaneBuffer*2))
     );
     var y = hiv_game.randomNum(
       cPoint.northSouthLaneBuffer,
       (hiv_game.game.height-(cPoint.northSouthLaneBuffer*2))
-    );
+    );*/
     hiv_game.controlPoints.push(
       cPoint.create(type, x, y)
     );
