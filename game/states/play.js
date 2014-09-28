@@ -51,6 +51,7 @@ Play.prototype = {
       this.tickityTock = _jump;
       this.createWhiteBloodCell();
       this.createHIV();
+      this.backgroundColorChanger();
     }
     var wbcGroup = game.add.group();
     var hivGroup = game.add.group();
@@ -80,7 +81,6 @@ Play.prototype = {
     }
 
     this.backgroundRotate();
-    this.backgroundColorChanger();
     
   },
   createControlPoint: function(type, x, y) {
@@ -127,7 +127,7 @@ Play.prototype = {
     for(var i; i < hiv_game.controlPoints.length; i++){
       if(hiv_game.controlPoints[i].owner == "hiv"){
         hiv_game.gBackground2.alpha += 0.001;
-        hiv_game.gBackground2.alpha += 0.002;
+        hiv_game.gBackground2.alpha += 0.001;
         hiv_game.rBackground1.alpha -= 0.001;
         hiv_game.rBackground2.alpha -= 0.001;
       }
