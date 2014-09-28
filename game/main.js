@@ -40,6 +40,32 @@ function loadHivGameHelpers() {
   hiv_game.rBackground2 = null;
   hiv_game.gBackground1 = null;
   hiv_game.gBackground2 = null;
+    
+    // strings for awareness yall
+    hiv_game.purposeThymus = "T-cells mature in the thymus. These cells hunt and kill friendly cells that become infected.";
+    hiv_game.effectThymus = "HIV targets these cells specifically, turning the immune system against itself.";
+    
+    hiv_game.purposeBoneMarrow = "White blood cells grow here, in your bone marrow.";
+    hiv_game.effectBoneMarrow = "";
+    
+    hiv_game.purposeLymph = "Lymph nodes are like forward bases for your body's defenses.";
+    hiv_game.effectLymph = "HIV taxes your defenses, leaving your body vulnerable to secondary infection.";
+    
+    hiv_game.gameOverDeathToll = 0;
+    hiv_game.gameOverDeathTollUp = 0;
+    
+    hiv_game.hivInfo = [
+        "HIV infects cells of the immune system.",
+        "It can take up to 10 years for symptoms to manifest.",
+        "There are treatments for HIV, but no cure.",
+        "35 million people live with HIV.",
+        "12 million have access to treatment.",
+        "1 in 4 children infected with HIV have access to treatment."
+    ]
+    
+    
+    
+    
   hiv_game.randomNum = function( start, num ) {
     return Math.floor( Math.random() * num ) + start;
   };

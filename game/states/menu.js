@@ -40,7 +40,8 @@ Menu.prototype = {
   },
   update: function() {
     if(this.game.input.activePointer.justPressed()) {
-      this.game.state.start('play');
+//      this.game.state.start('play');
+        this.game.state.start('gameover'); // GOTTA TEST THAT SCREEEEEEEN
     }
     _jump = hiv_game.game.time.elapsedSince(this.jumpStart)
     if( (this.tickityTock + 5000) - _jump <= 0 ) {
@@ -55,7 +56,7 @@ Menu.prototype = {
       menuBpAlpha += 0.01;
       menuBloodPulse.alpha = menuBpAlpha;
       if(menuBpAlpha >= 1){
-          console.log(menuBpAlpha + " " + menuBloodPulse.alpha);
+          //console.log(menuBpAlpha + " " + menuBloodPulse.alpha);
           menuBpAlphaStart = 0;
           menuBpAlphaEnd = 1;
       }
