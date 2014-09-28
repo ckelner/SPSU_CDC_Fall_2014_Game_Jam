@@ -15,9 +15,9 @@ Play.prototype = {
     // how often to spawn HIV
     this.game.time.events.loop( 1000, this.createHIV, this );
     // Create contol points
-    createControlPoint("thymus")
-    createControlPoint("marrow");
-    createControlPoint("lymph");
+    this.createControlPoint("thymus")
+    this.createControlPoint("marrow");
+    this.createControlPoint("lymph");
   },
   update: function() {
     hiv_game.wbc.forEach(function(wbc) {
@@ -38,7 +38,7 @@ Play.prototype = {
       (hiv_game.game.height-cPoint.northSouthLaneBuffer)
     );
     hiv_game.controlPoints.push(
-      cPoint.create(type, x, y);
+      cPoint.create(type, x, y)
     );
   },
   createHIV: function() {
