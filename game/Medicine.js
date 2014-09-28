@@ -1,7 +1,7 @@
-Medecine = function() {
+Medicinecine = function() {
   this.sprite = null;
 };
-Medecine.prototype = {
+Medicine.prototype = {
   create: function () {
   }
 };
