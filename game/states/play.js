@@ -31,6 +31,19 @@ Play.prototype = {
     hiv_game.rBackground2 = this.game.add.sprite(this.game.world.centerX,-100, 'rBackground'); 
     hiv_game.rBackground2.anchor.setTo(0.5,0.5);
     hiv_game.rBackground2.scale.setTo(3, 3);
+
+    //hiv_game.map.load();
+    this.game.physics.startSystem( Phaser.Physics.ARCADE );
+    // how often to spawn white blood cells
+    this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
+    // how often to spawn HIV
+    this.game.time.events.loop( 1000, this.createHIV, this );
+    // Create contol points
+    this.createControlPoint("thymus", 800, 450)
+    this.createControlPoint("marrow", 0, 0);
+    this.createControlPoint("marrow", 1565, 830);
+    this.createControlPoint("lymph", 1565, 0);
+    this.createControlPoint("lymph", 0, 830);
   },
   update: function() {
     _jump = hiv_game.game.time.elapsedSince(this.jumpStart)
