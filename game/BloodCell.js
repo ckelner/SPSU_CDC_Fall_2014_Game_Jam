@@ -34,15 +34,6 @@ BloodCell.prototype = {
 	},
   goToNearestTarget: function(sprite) {
     var pos = this.findNearestControlPoint( sprite );
-    //var tween = this.game.add.tween( sprite );
-    //tween.to({ x: pos.x, y: pos.y }, 6000);
-    //tween.start();
-    /*if( pos.x === sprite.position.x &&
-      pos.y === sprite.position.y ) {
-      sprite.body.acceleration.set(0);
-    } else {*/
-    //var angle = this.findAngleToTarget( sprite.position, pos );
-    //sprite.rotation = angle;
     sprite.rotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pos);
     hiv_game.game.physics.arcade.velocityFromRotation(sprite.rotation, 100, sprite.body.velocity);
     //}
