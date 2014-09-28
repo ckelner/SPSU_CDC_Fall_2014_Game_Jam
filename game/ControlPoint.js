@@ -1,6 +1,8 @@
 ControlPoint = function(game) {
 	this.game = game;
 	this.sprite = null;
+  this.eastWestLaneBuffer=200;
+  this.northSouthLaneBuffer=50;
 };
 
 ControlPoint.prototype = {
@@ -22,7 +24,7 @@ ControlPoint.prototype = {
 				this.sprite = game.add.sprite(x, y, 'lymph-96');
 			break;
 		}
-
+    return this.sprite;
 	},
 
 	update: function () {
