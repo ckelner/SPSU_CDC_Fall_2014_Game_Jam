@@ -13,12 +13,12 @@ window.onload = function () {
   game.state.add('gameover', GameOver);
   game.state.start('boot');
   hiv_game.game = game;
-  loadHivGameHelperVars();
+  loadHivGameHelpers();
 };
 function loadControls() {
-  hiv_game.controls = new Controls(game);
+  hiv_game.controls = new Controls();
 }
-function loadHivGameHelperVars() {
+function loadHivGameHelpers() {
   hiv_game.controlPoints = [];
   hiv_game.wbc = [];
   hiv_game.hiv = [];
@@ -28,4 +28,7 @@ function loadHivGameHelperVars() {
   hiv_game.rBackground2 = null;
   hiv_game.gBackground1 = null;
   hiv_game.gBackground2 = null;
+  hiv_game.randomNum = function( start, num ) {
+    return Math.floor( Math.random() * num ) + start;
+  };
 };
