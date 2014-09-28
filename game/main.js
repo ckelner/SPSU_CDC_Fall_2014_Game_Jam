@@ -26,4 +26,8 @@ function loadHivGameHelperVars() {
   hiv_game.hiv = [];
   hiv_game.hivWidthHeight = 32;
   hiv_game.wbcWidthHeight = 32;
+  hiv_game.rBackground1 = null;
+  hiv_game.rBackground2 = null;
+  hiv_game.gBackground1 = null;
+  hiv_game.gBackground2 = null;
 };

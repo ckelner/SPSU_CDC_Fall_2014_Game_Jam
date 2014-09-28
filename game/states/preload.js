@@ -14,7 +14,8 @@ Preload.prototype = {
     this.load.image('b-cell-plasma', 'assets/b-cell-plasma.png');
     this.load.image('b-cell-spawn', 'assets/b-cell-spawn.png');
     this.load.image('b-cell', 'assets/b-cell.png');
-    this.load.image('background', 'assets/background.png');
+    this.load.image('gBackground', 'assets/gBackground.png');
+    this.load.image('rBackground', 'assets/rBackground.png');
     this.load.image('bone-marrow-96', 'assets/bone-marrow-96.png');
     this.load.image('freeze-96', 'assets/freeze-96.png');
     this.load.image('frozen-32', 'assets/frozen-32.png');
