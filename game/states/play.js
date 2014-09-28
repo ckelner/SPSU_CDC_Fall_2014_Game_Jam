@@ -32,7 +32,11 @@ function Play() {}
 Play.prototype = {
 
   preload: function () {
-
+    this.createControlPoint(0, "thymus", 0, 0);
+    this.createControlPoint(1, "marrow", 0, 1600);
+    this.createControlPoint(2, "lymph", 350, 350);
+    this.createControlPoint(3, "marrow", 900, 0);
+    this.createControlPoint(4, "lymph", 760, 760);
   },
 
   create: function() {
@@ -48,7 +52,7 @@ Play.prototype = {
 
   // update loop
   update: function() {
-    
+
   },
 
   createControlPoint: function(id, type, x, y) {
