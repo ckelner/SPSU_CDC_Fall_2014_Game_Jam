@@ -62,7 +62,7 @@ Play.prototype = {
     hiv_game.gBackground1.angle += 0.1;
     hiv_game.gBackground2.angle += 0.2;
     hiv_game.rBackground1.angle += 0.1;
-    hiv_game.rBackground2.angle += 0.2;  
+    hiv_game.rBackground2.angle += 0.2;
   },
   createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint();
