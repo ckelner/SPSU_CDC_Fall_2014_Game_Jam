@@ -9,48 +9,9 @@ Play.prototype = {
     // how often to spawn HIV
     this.game.time.events.loop( 1000, this.createHIV, this );
     // Create contol points
-    var controlPointThymus = new ControlPoint(this.game);
-    hiv_game.controlPoints.push( 
-      controlPointThymus.create(
-        "thymus",
-        this.randomNum(
-          controlPointThymus.eastWestLaneBuffer,
-          hiv_game.game.width-controlPointThymus.eastWestLaneBuffer
-        ),
-        this.randomNum(
-          controlPointThymus.northSouthLaneBuffer,
-          hiv_game.game.height-controlPointThymus.northSouthLaneBuffer
-        )
-      )
-    );
-    var controlPointMarrow = new ControlPoint(this.game);
-    hiv_game.controlPoints.push( 
-      controlPointThymus.create(
-        "marrow",
-        this.randomNum(
-          controlPointMarrow.eastWestLaneBuffer,
-          hiv_game.game.width-controlPointMarrow.eastWestLaneBuffer
-        ),
-        this.randomNum(
-          controlPointMarrow.northSouthLaneBuffer,
-          hiv_game.game.height-controlPointMarrow.northSouthLaneBuffer
-        )
-      )
-    );
-    var controlPointLymph = new ControlPoint(this.game);
-    hiv_game.controlPoints.push( 
-      controlPointThymus.create(
-        "lymph",
-        this.randomNum(
-          controlPointLymph.eastWestLaneBuffer,
-          hiv_game.game.width-controlPointLymph.eastWestLaneBuffer
-        ),
-        this.randomNum(
-          controlPointLymph.northSouthLaneBuffer,
-          hiv_game.game.height-controlPointLymph.northSouthLaneBuffer
-        )
-      )
-    );
+    createControlPoint("thymus")
+    createControlPoint("marrow");
+    createControlPoint("lymph");
   },
   update: function() {
     hiv_game.wbc.forEach(function(wbc) {
@@ -60,16 +21,19 @@ Play.prototype = {
       hiv.update();
     });
   },
-  createControlPoint: function(id, type, x, y) {
+  createControlPoint: function(type) {
     var cPoint = new ControlPoint(this.game);
-    cPoint.create(type, x, y);
-
-    var point = {
-      "index": id,
-      "controlPoint": cPoint,
-    };
-    // Store
-    global_controlPointArr.push(point);
+    var x = this.randomNum(
+      cPoint.eastWestLaneBuffer,
+      (hiv_game.game.width-cPoint.eastWestLaneBuffer)
+    );
+    var y = this.randomNum(
+      cPoint.northSouthLaneBuffer,
+      (hiv_game.game.height-cPoint.northSouthLaneBuffer)
+    );
+    hiv_game.controlPoints.push(
+      cPoint.create(type, x, y);
+    );
   },
   createHIV: function() {
     var cell = new BloodCell(this.game);
