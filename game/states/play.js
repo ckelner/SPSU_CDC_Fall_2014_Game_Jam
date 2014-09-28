@@ -32,7 +32,7 @@ function Play() {}
 Play.prototype = {
 
   preload: function () {
-    
+
   },
 
   create: function() {
@@ -44,15 +44,11 @@ Play.prototype = {
     var wbcEventLoop = this.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
     // how often to spawn HIV
     var hivEventLoop = this.game.time.events.loop( 1000, this.createHIV, this );
-    // Create contol points
-    controlPoint = new ControlPoint(this.game);
-    controlPoint.create("thymus", 150, 150);
-    //testwbc.create("white", 100, 100);
   },
 
   // update loop
   update: function() {
-    //testwbc.moveTo(controlPoint.sprite);
+    
   },
 
   createControlPoint: function(id, type, x, y) {
