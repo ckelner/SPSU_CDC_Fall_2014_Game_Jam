@@ -12,8 +12,8 @@ GameOver.prototype = {
     hiv_game.gBackground2.scale.setTo(3, 3);
     hiv_game.gBackground2.alpha = 1;
     var style = { font: '65px Arial', fill: '#ffffff', align: 'center'};
-    this.titleText = this.game.add.text(this.game.world.centerX,100, 'Game Over!', style);
-    this.titleText.anchor.setTo(0.5, 0.5);
+    this.gameover = this.game.add.sprite(this.game.world.centerX,100, 'gameover');
+    this.gameover.anchor.setTo(0.5,0.5);
 
     this.congratsText = this.game.add.text(this.game.world.centerX, 200, 'You Win!', { font: '32px Arial', fill: '#ffffff', align: 'center'});
     this.congratsText.anchor.setTo(0.5, 0.5);
@@ -27,10 +27,10 @@ GameOver.prototype = {
   update: function () {
     if(this.game.input.activePointer.justPressed()) {
       this.game.state.start('play');
-    console.log("hit")
+    }
+      
+          console.log("hit")
     hiv_game.gBackground1.angle += 0.1;
     hiv_game.gBackground2.angle += 0.2;
-        
-    }
   }
 };

@@ -19,6 +19,7 @@ Preload.prototype = {
     this.load.image('bone-marrow-96', 'assets/bone-marrow-96.png');
     this.load.image('freeze-96', 'assets/freeze-96.png');
     this.load.image('frozen-32', 'assets/frozen-32.png');
+    this.load.image('gameover', 'assets/gameover.png');
     this.load.image('hit-25x13', 'assets/hit-25x13.png');
     this.load.image('HIV-virus', 'assets/HIV-virus.png');
     this.load.image('hiv', 'assets/hiv.png');
