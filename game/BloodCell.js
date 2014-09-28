@@ -24,8 +24,8 @@ BloodCell.prototype = {
 		}
 
     this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-    this.sprite.body.drag.set(100);
-    this.sprite.body.maxVelocity.set(200);
+    //this.sprite.body.drag.set(100);
+    //this.sprite.body.maxVelocity.set(200);
     return this;
 	},
 
@@ -34,16 +34,18 @@ BloodCell.prototype = {
 	},
   goToNearestTarget: function(sprite) {
     var pos = this.findNearestControlPoint( sprite );
-    var tween = this.game.add.tween( sprite );
-    tween.to({ x: pos.x, y: pos.y }, 6000);
-    tween.start();
+    //var tween = this.game.add.tween( sprite );
+    //tween.to({ x: pos.x, y: pos.y }, 6000);
+    //tween.start();
     /*if( pos.x === sprite.position.x &&
       pos.y === sprite.position.y ) {
       sprite.body.acceleration.set(0);
     } else {*/
     //var angle = this.findAngleToTarget( sprite.position, pos );
     //sprite.rotation = angle;
-    //hiv_game.game.physics.arcade.velocityFromRotation(sprite.rotation, 100, sprite.body.velocity);
+    sprite.rotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pos);
+    console.log(angle);
+    hiv_game.game.physics.arcade.velocityFromRotation(sprite.rotation, 100, sprite.body.velocity);
     //}
   },
   findAngleToTarget: function( sprite, target ) {
@@ -51,7 +53,7 @@ BloodCell.prototype = {
     var spritePosY = sprite.y;
     var targetPosX = target.x;
     var targetPosY = target.y;
-    var angleRad = Math.acos( (spritePosX * targetPosX + spritePosY * targetPosY) /
+    var angleRad = Math.atan( (spritePosX * targetPosX + spritePosY * targetPosY) /
       ( Math.sqrt(spritePosX * spritePosX + spritePosY * spritePosY) * 
       Math.sqrt(targetPosX * targetPosX + targetPosY * targetPosY) ) );
     return angleRad * 180 / Math.PI;
