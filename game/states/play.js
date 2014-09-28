@@ -79,10 +79,9 @@ Play.prototype = {
       console.log("Exception: " + e.message);
     }
 
-    hiv_game.gBackground1.angle += 0.1;
-    hiv_game.gBackground2.angle += 0.2;
-    hiv_game.rBackground1.angle += 0.1;
-    hiv_game.rBackground2.angle += 0.2;  
+    this.backgroundRotate();
+    this.backgroundColorChanger();
+    
   },
   createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint();
@@ -117,5 +116,21 @@ Play.prototype = {
         hiv_game.randomNum(1, hiv_game.game.height)
       )
     );
+  },
+  backgroundRotate: function() {
+    hiv_game.gBackground1.angle += 0.1;
+    hiv_game.gBackground2.angle += 0.2;
+    hiv_game.rBackground1.angle += 0.1;
+    hiv_game.rBackground2.angle += 0.2;  
+  },
+  backgroundColorChanger: function() {
+    for(var i; i < hiv_game.controlPoints.length; i++){
+      if(hiv_game.controlPoints[i].owner == "hiv"){
+        hiv_game.gBackground2.alpha += 0.001;
+        hiv_game.gBackground2.alpha += 0.002;
+        hiv_game.rBackground1.alpha -= 0.001;
+        hiv_game.rBackground2.alpha -= 0.001;
+      }
+    }
   }
 };
