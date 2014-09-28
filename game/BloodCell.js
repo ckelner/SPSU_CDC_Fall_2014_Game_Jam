@@ -7,6 +7,12 @@ BloodCell = function() {
   this.direction = null;
   this.giveUpMoveCloserRange = 45;
   this.speed = 100;
+  this.isMoving = false;
+  this.x = null;
+  this.y = null;
+  this.targetX = null;
+  this.targetY = null;
+  this.atTarget = false;
 };
 BloodCell.prototype = {
   create: function (type, x, y) {
@@ -24,8 +30,12 @@ BloodCell.prototype = {
     return this;
   },
   update: function () {
-    this.goToNearestTarget( this.sprite );
-    this.move();
+    if( !this.atTarget ) {
+      this.goToNearestTarget( this.sprite );
+      this.move();
+    } else {
+      // some logic needs to trigger to tell it to move to next target
+    }
   },
   getSprite: function () {
     return this.sprite;
@@ -35,24 +45,38 @@ BloodCell.prototype = {
     var pos = target.position;
     if( Math.abs(sprite.position.x - pos.x) < this.giveUpMoveCloserRange && 
       Math.abs(sprite.position.y - pos.y) < this.giveUpMoveCloserRange ) {
+      // once we've reached this stage we should freeze the cell
+      // until we give explicit instruction
+      this.atTarget = true;
+      // set immovable
+      sprite.body.immovable = true;
+      // no more moving
+      this.isMoving = false;
       sprite.body.velocity = 0;
       sprite.body.velocity.x = 0;
       sprite.body.velocity.y = 0;
       sprite.body.angularVelocity = 0;
     } else {
-      var pt = new Phaser.Point();
-      pt.x = pos.x + hiv_game.randomNum(20,45);
-      pt.y = pos.y + hiv_game.randomNum(20,45);
-
-      var possibleRotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pt);
-      if( this.direction === null ) {
-        this.direction = possibleRotation;
-      }
-      // don't adjust the angle like a crazy fucker
-      if( Math.abs(this.direction - possibleRotation) > 0.05 ) {
-        this.setDirection(possibleRotation);
-      }
+      this.isMoving = true;
+      this.setTarget( pos.x + hiv_game.randomNum(20,45), pos.y + hiv_game.randomNum(20,45) );
     }
+  },
+  isAtTarget: function() {
+    return this.atTarget;
+  },
+  setAtTarget: function( bool ) {
+    this.atTarget = bool;
+  },
+  setTarget: function(x,y) {
+    this.targetX = x;
+    this.targetY = y;
+  },
+  setPosition: function(x,y) {
+    this.x = x;
+    this.y = y;
+  },
+  getPosition: function() {
+    return {"x":this.x,"y":this.y};
   },
   setDirection: function(dir) {
     this.direction = dir;
@@ -60,7 +84,29 @@ BloodCell.prototype = {
   getDirection: function() {
     return this.direction;
   },
+  isMoving: function() {
+    return this.isMoving;
+  },
+  dontMove: function() {
+    this.isMoving = false;
+  },
+  startMoving: function() {
+    this.isMoving = true;
+  },
   move: function() {
+    var pt = new Phaser.Point();
+    pt.x = this.targetX;
+    pt.y = this.targetY;
+
+    var possibleRotation = hiv_game.game.physics.arcade.angleBetween(this.sprite.position, pt);
+    // init the first time through
+    if( this.direction === null ) {
+      this.direction = possibleRotation;
+    }
+    // don't adjust the angle like a crazy fucker
+    if( Math.abs(this.direction - possibleRotation) > 0.05 ) {
+      this.setDirection(possibleRotation);
+    }
     this.sprite.rotation = this.direction;
     hiv_game.game.physics.arcade.velocityFromRotation(this.sprite.rotation, 100, this.sprite.body.velocity);
   },
