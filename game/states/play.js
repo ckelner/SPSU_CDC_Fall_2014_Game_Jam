@@ -36,7 +36,12 @@ Play.prototype = {
   },
   create: function() {
     // load the map
-    hiv_game.map.load();
+    //hiv_game.map.load();
+    //background1 = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY, 'background');
+    //background1.anchor.setTo(0.5,0.5);
+    //background1.scale.setTo(3,3);
+   
+      
     // I don't know
     this.game.physics.startSystem( Phaser.Physics.ARCADE );
     // how often to spawn white blood cells
