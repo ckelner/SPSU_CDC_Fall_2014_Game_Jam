@@ -24,6 +24,8 @@ Preload.prototype = {
     this.load.image('lymph-96', 'assets/lymph-96.png');
     this.load.image('macrophage-64', 'assets/macrophage-64.png');
     this.load.image('map-tiles', 'assets/map-tiles.png');
+    this.load.image('menu-hiv', 'assets/menu-hiv.png');
+    this.load.image('menu-wbc', 'assets/menu-wbc.png');
     this.load.image('shield-96', 'assets/shield-96.png');
     this.load.image('tcell-48', 'assets/tcell-48.png');
     this.load.image('thymus-96', 'assets/thymus-96.png');
