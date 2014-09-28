@@ -17,4 +17,13 @@ window.onload = function () {
   // new map
   var map = new Map();
   hiv_game.map = map;
+  loadHivGameHelperVars();
+};
+
+function loadHivGameHelperVars() {
+  hiv_game.controlPoints = [];
+  hiv_game.wbc = [];
+  hiv_game.hiv = [];
+  hiv_game.hivWidthHeight = 32;
+  hiv_game.wbcWidthHeight = 32;
 };
