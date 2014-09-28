@@ -79,15 +79,45 @@ Play.prototype = {
     hiv_game.game.physics.arcade.collide(hivGroup,hivGroup,this.handleCollision);
     hiv_game.game.physics.arcade.collide(wbcGroup,hivGroup,this.handleCollision);
     // collide control points and cells
-    hiv_game.game.physics.arcade.collide(cpGroup,hivGroup,this.handleCollision);
-    hiv_game.game.physics.arcade.collide(cpGroup,wbcGroup,this.handleCollision);
+    hiv_game.game.physics.arcade.collide(cpGroup,hivGroup,this.handleCellControlPtCollision);
+    hiv_game.game.physics.arcade.collide(cpGroup,wbcGroup,this.handleCellControlPtCollision);
+  },
+  handleCellControlPtCollision: function(spriteOne, spriteTwo) {
+    var s1SpriteType = spriteOne.typeOfSprite;
+    var s2SpriteType = spriteTwo.typeOfSprite;
+    var s1GameObj = spriteOne.gameObject;
+    var s2GameObj = spriteTwo.gameObject;
+    var cell = null;
+    var cp = null;
+    // who is who?
+    if( s1GameObj.type === hiv_game.gameObjectTypes[0] ) {
+      cell = s1GameObj;
+      cp = s2GameObj;
+    } else {
+      cell = s2GameObj;
+      cp = s2GameObj;
+    }
+    var cellSprite = cell.getSprite();
+    var cpSprite = cp.getSprite();
+    var cpBounds = cpSprite.getBounds();
+    var cellBounds = cellSprite.getBounds();
+    var cpUpperLeftY = cpBounds.y;
+    var cpUpperLeftX = cpBounds.x;
+    var cpLowerRightY = cpUpperLeftY + cpBounds.height;
+    var cpLowerRightX = cpUpperLeftX + cpBounds.width;
+    var cellUpperLeftY = cellBounds.y;
+    var cellUpperLeftX = cellBounds.x;
+    var cellLowerRightY = cellUpperLeftY + cellBounds.height;
+    var cellLowerRightX = cellUpperLeftX + cellBounds.width;
+    // don't let these shits get under the ctrl point
+    // establish cell position
   },
   handleCollision: function(spriteOne, spriteTwo) {
     var s1SpriteType = spriteOne.typeOfSprite;
     var s2SpriteType = spriteTwo.typeOfSprite;
     var s1GameObj = spriteOne.gameObject;
     var s2GameObj = spriteTwo.gameObject;
-    //console.log("s1Dir: " + s1Dir + " -- s2Dir: " + s2Dir);
+    // FIXME: Kelner -- Don't really need this now w/ two different handlers
     // are they both cells?
     if( s1GameObj.type === hiv_game.gameObjectTypes[0]
       && s1GameObj.type === hiv_game.gameObjectTypes[0] ) {
