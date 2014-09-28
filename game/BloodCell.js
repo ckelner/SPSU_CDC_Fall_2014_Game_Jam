@@ -7,6 +7,11 @@ BloodCell = function() {
   this.direction = null;
   this.giveUpMoveCloserRange = 45;
   this.speed = 100;
+  this.isMoving = false;
+  this.x = null;
+  this.y = null;
+  this.targetX = null;
+  this.targetY = null;
 };
 BloodCell.prototype = {
   create: function (type, x, y) {
@@ -35,24 +40,22 @@ BloodCell.prototype = {
     var pos = target.position;
     if( Math.abs(sprite.position.x - pos.x) < this.giveUpMoveCloserRange && 
       Math.abs(sprite.position.y - pos.y) < this.giveUpMoveCloserRange ) {
+      this.isMoving = false;
       sprite.body.velocity = 0;
       sprite.body.velocity.x = 0;
       sprite.body.velocity.y = 0;
       sprite.body.angularVelocity = 0;
     } else {
-      var pt = new Phaser.Point();
-      pt.x = pos.x + hiv_game.randomNum(20,45);
-      pt.y = pos.y + hiv_game.randomNum(20,45);
-
-      var possibleRotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pt);
-      if( this.direction === null ) {
-        this.direction = possibleRotation;
-      }
-      // don't adjust the angle like a crazy fucker
-      if( Math.abs(this.direction - possibleRotation) > 0.05 ) {
-        this.setDirection(possibleRotation);
-      }
+      this.isMoving = true;
+      this.setPosition( pos.x + hiv_game.randomNum(20,45), pos.y + hiv_game.randomNum(20,45) );
     }
+  },
+  setPosition: function(x,y) {
+    this.x = x;
+    this.y = y;
+  },
+  getPosition: function() {
+    return {"x":this.x,"y":this.y};
   },
   setDirection: function(dir) {
     this.direction = dir;
@@ -60,7 +63,23 @@ BloodCell.prototype = {
   getDirection: function() {
     return this.direction;
   },
+  isMoving: function(dir) {
+    return this.isMoving;
+  },
   move: function() {
+    var pt = new Phaser.Point();
+    pt.x = this.x;
+    pt.y = this.y;
+
+    var possibleRotation = hiv_game.game.physics.arcade.angleBetween(this.sprite.position, pt);
+    // init the first time through
+    if( this.direction === null ) {
+      this.direction = possibleRotation;
+    }
+    // don't adjust the angle like a crazy fucker
+    if( Math.abs(this.direction - possibleRotation) > 0.05 ) {
+      this.setDirection(possibleRotation);
+    }
     this.sprite.rotation = this.direction;
     hiv_game.game.physics.arcade.velocityFromRotation(this.sprite.rotation, 100, this.sprite.body.velocity);
   },

@@ -14,10 +14,22 @@ window.onload = function () {
   game.state.start('boot');
   hiv_game.game = game;
   loadHivGameHelpers();
+  var debug = getQueryParam('debug');
+  if( debug === "true" || debug === true ) {
+    hiv_game.debug = true;
+  } else {
+    hiv_game.debug = false;
+  }
+};
+function getQueryParam( query ) {
+  query = query.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + query + "=([^&#]*)"),
+      results = regex.exec(location.search);
+  return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 function loadControls() {
   hiv_game.controls = new Controls();
-}
+};
 function loadHivGameHelpers() {
   hiv_game.controlPoints = [];
   hiv_game.wbc = [];
@@ -31,4 +43,17 @@ function loadHivGameHelpers() {
   hiv_game.randomNum = function( start, num ) {
     return Math.floor( Math.random() * num ) + start;
   };
+  hiv_game.gameObjectTypes = [
+    "cell",
+    "controlpoint"
+  ];
+  hiv_game.cellTypes = [
+    "white",
+    "hiv"
+  ];
+  hiv_game.controlPtTypes = [
+    "thymus",
+    "marrow",
+    "lymph"
+  ];
 };
