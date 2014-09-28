@@ -16,6 +16,7 @@ ControlPoint.prototype = {
 		switch (type) {
 			case "thymus":
 				this.sprite = game.add.sprite(x, y, 'thymus-96');
+				this.sprite.scale.setTo(2, 2);
 			break;
 			case "marrow":
 				this.sprite = game.add.sprite(x, y, 'bone-marrow-96');

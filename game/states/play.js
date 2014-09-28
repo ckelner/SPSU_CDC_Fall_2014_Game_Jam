@@ -52,7 +52,6 @@ Play.prototype = {
       )
     );
   },
-  // update loop
   update: function() {
     hiv_game.wbc.forEach(function(wbc) {
       wbc.update();
@@ -60,6 +59,17 @@ Play.prototype = {
     hiv_game.hiv.forEach(function(hiv) {
       hiv.update();
     });
+  },
+  createControlPoint: function(id, type, x, y) {
+    var cPoint = new ControlPoint(this.game);
+    cPoint.create(type, x, y);
+
+    var point = {
+      "index": id,
+      "controlPoint": cPoint,
+    };
+    // Store
+    global_controlPointArr.push(point);
   },
   createHIV: function() {
     var cell = new BloodCell(this.game);
@@ -82,6 +92,6 @@ Play.prototype = {
     );
   },
   randomNum: function( start, num ) {
-    return Math.floor( Math.random() * num ) + 1;
+    return Math.floor( Math.random() * num ) + start;
   }
 };
