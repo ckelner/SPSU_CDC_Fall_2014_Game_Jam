@@ -19,6 +19,8 @@ ControlPoint.prototype = {
       break;
     }
     this.sprite.anchor.setTo(0.5,0.5);
+    hiv_game.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+    this.sprite.body.immovable = true;
     return this;
   },
   update: function () {},

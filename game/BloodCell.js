@@ -4,6 +4,8 @@ BloodCell = function() {
   this.destX = 0;
   this.destY = 0;
   this.cellType = null;
+  this.direction = null;
+  this.giveUpMoveCloserRange = 65;
 };
 BloodCell.prototype = {
   create: function (type, x, y) {
@@ -27,13 +29,26 @@ BloodCell.prototype = {
   goToNearestTarget: function(sprite) {
     var target = this.findNearestControlPoint( sprite );
     var pos = target.position;
-    if( Math.abs(sprite.position.x - pos.x) < 25 && Math.abs(sprite.position.y - pos.y) < 25 ) {
+    if( Math.abs(sprite.position.x - pos.x) < this.giveUpMoveCloserRange && 
+      Math.abs(sprite.position.y - pos.y) < this.giveUpMoveCloserRange ) {
       sprite.body.velocity = 0;
+      sprite.body.velocity.x = 0;
+      sprite.body.velocity.y = 0;
+      sprite.body.angularVelocity = 0;
     } else {
       var pt = new Phaser.Point();
-      pt.x = pos.x + hiv_game.randomNum(5,35);
-      pt.y = pos.y + hiv_game.randomNum(5,35);
-      sprite.rotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pt);
+      pt.x = pos.x + hiv_game.randomNum(20,45);
+      pt.y = pos.y + hiv_game.randomNum(20,45);
+
+      var possibleRotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pt);
+      if( this.direction === null ) {
+        this.direction = possibleRotation;
+      }
+      // don't adjust the angle like a crazy fucker
+      if( Math.abs(this.direction - possibleRotation) > 0.05 ) {
+        this.direction = possibleRotation;
+        sprite.rotation = this.direction;
+      }
       hiv_game.game.physics.arcade.velocityFromRotation(sprite.rotation, 100, sprite.body.velocity);
     }
   },

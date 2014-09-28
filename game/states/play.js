@@ -54,6 +54,7 @@ Play.prototype = {
     }
     var wbcGroup = game.add.group();
     var hivGroup = game.add.group();
+    var cpGroup = game.add.group();
     hiv_game.wbc.forEach(function(wbc) {
       wbc.update();
       wbcGroup.add(wbc.getSprite());
@@ -62,10 +63,21 @@ Play.prototype = {
       hiv.update();
       hivGroup.add(hiv.getSprite());
     });
+    hiv_game.controlPoints.forEach(function(cp) {
+      cp.update();
+      cpGroup.add(cp.getSprite());
+    });
 
     hiv_game.game.physics.arcade.collide(wbcGroup,wbcGroup);
     hiv_game.game.physics.arcade.collide(hivGroup,hivGroup);
     hiv_game.game.physics.arcade.collide(wbcGroup,hivGroup);
+    try {
+      hiv_game.game.physics.arcade.collide(cpGroup,hivGroup);
+      hiv_game.game.physics.arcade.collide(cpGroup,wbcGroup);
+    } catch (e) {
+      // sometimes it is a turd?
+      console.log("Exception: " + e.message);
+    }
 
     hiv_game.gBackground1.angle += 0.1;
     hiv_game.gBackground2.angle += 0.2;
