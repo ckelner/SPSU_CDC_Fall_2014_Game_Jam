@@ -44,7 +44,7 @@ BloodCell.prototype = {
     //var angle = this.findAngleToTarget( sprite.position, pos );
     //sprite.rotation = angle;
     sprite.rotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pos);
-    console.log(angle);
+   // console.log(angle);
     hiv_game.game.physics.arcade.velocityFromRotation(sprite.rotation, 100, sprite.body.velocity);
     //}
   },
