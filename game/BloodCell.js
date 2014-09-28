@@ -14,6 +14,7 @@ BloodCell = function() {
   this.targetX = null;
   this.targetY = null;
   this.atTarget = false;
+  this.goingForNearestTarget = true;
 };
 BloodCell.prototype = {
   create: function (type, x, y) {
@@ -38,11 +39,16 @@ BloodCell.prototype = {
   },
   update: function () {
     if( !this.atTarget ) {
-      this.goToNearestTarget( this.sprite, this.cellType );
+      if( this.goingForNearestTarget ) {
+        this.goToNearestTarget( this.sprite, this.cellType );
+      }
       this.move();
     } else {
       // some logic needs to trigger to tell it to move to next target
     }
+  },
+  goNearest: function( bool ) {
+    this.goingForNearestTarget = bool;
   },
   getSprite: function () {
     return this.sprite;
@@ -58,23 +64,19 @@ BloodCell.prototype = {
   goToNearestTarget: function(sprite, cellType) {
     var target = this.findNearestControlPoint( sprite, cellType );
     var pos = target.position;
-    if( Math.abs(sprite.position.x - pos.x) < this.giveUpMoveCloserRange && 
-      Math.abs(sprite.position.y - pos.y) < this.giveUpMoveCloserRange ) {
-      // once we've reached this stage we should freeze the cell
-      // until we give explicit instruction
-      this.atTarget = true;
-      // set immovable
-      sprite.body.immovable = true;
-      // no more moving
-      this.isMoving = false;
-      sprite.body.velocity = 0;
-      sprite.body.velocity.x = 0;
-      sprite.body.velocity.y = 0;
-      sprite.body.angularVelocity = 0;
-    } else {
-      this.isMoving = true;
-      this.setTarget( pos.x + hiv_game.randomNum(20,45), pos.y + hiv_game.randomNum(20,45) );
-    }
+    this.setTarget( pos.x + hiv_game.randomNum(5,15), pos.y + hiv_game.randomNum(5,15) );
+  },
+  arrivedAtTarget: function() {
+    this.atTarget = true;
+    // set immovable
+    this.sprite.body.immovable = true;
+    // no more moving
+    this.isMoving = false;
+    this.goingForNearestTarget = true;
+    this.sprite.body.velocity = 0;
+    this.sprite.body.velocity.x = 0;
+    this.sprite.body.velocity.y = 0;
+    this.sprite.body.angularVelocity = 0;
   },
   isAtTarget: function() {
     return this.atTarget;
@@ -99,7 +101,7 @@ BloodCell.prototype = {
   getDirection: function() {
     return this.direction;
   },
-  isMoving: function() {
+  isCellMoving: function() {
     return this.isMoving;
   },
   dontMove: function() {
@@ -107,11 +109,30 @@ BloodCell.prototype = {
   },
   startMoving: function() {
     this.isMoving = true;
+    this.setAtTarget( false );
+    this.sprite.body.immovable = false;
   },
   move: function() {
     var pt = new Phaser.Point();
     pt.x = this.targetX;
     pt.y = this.targetY;
+
+    if( Math.abs(this.sprite.position.x - pt.x) < this.giveUpMoveCloserRange && 
+      Math.abs(this.sprite.position.y - pt.y) < this.giveUpMoveCloserRange ) {
+      var setAfterArrive = false;
+      if( !this.goingForNearestTarget ) {
+        setAfterArrive = true;
+      }
+      // once we've reached this stage we should freeze the cell
+      // until we give explicit instruction
+      this.arrivedAtTarget();
+      // will cause cell to try to go to target again
+      if( setAfterArrive ) {
+        this.setAtTarget( false );
+      }
+    } else {
+      this.isMoving = true;
+    }
 
     var possibleRotation = hiv_game.game.physics.arcade.angleBetween(this.sprite.position, pt);
     // init the first time through

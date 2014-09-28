@@ -148,10 +148,20 @@ Play.prototype = {
     } else {
     // FIXME: Kelner -- Don't really need this now w/ two different handlers
     // are they both cells?
-    if( s1GameObj.type === hiv_game.gameObjectTypes[0]
-      && s1GameObj.type === hiv_game.gameObjectTypes[0] ) {
-      // are these guys at the target?
-      if( s1GameObj.isAtTarget() && s2GameObj.isAtTarget() ) {
+    if( s1SpriteType.type === hiv_game.gameObjectTypes[0]
+      && s2SpriteType.type === hiv_game.gameObjectTypes[0] ) {
+      // are these guys at the target?arrivedAtTarget
+      /*if(
+        (s1GameObj.isAtTarget() && s2GameObj.isCellMoving()) ||
+        (s1GameObj.isCellMoving() && s2GameObj.isAtTarget())
+       ) {*/
+        // who to move?
+        var cellToMove = null;
+        if( s1GameObj.isCellMoving() ) {
+          cellToMove = s1GameObj;
+        } else {
+          cellToMove = s2GameObj;
+        }
         // then why you fighting?
         // move one target elsewhere
         var negPosX = hiv_game.randomNumNoStart(2);
@@ -164,30 +174,14 @@ Play.prototype = {
         if( negPosY === 1 ) {
           goNegY = -1;
         }
-        var newXDiff = hiv_game.randomNum(10,30) * goNegX;
-        var newYDiff = hiv_game.randomNum(10,30) * goNegY;
-        s1GameObj.setTarget( newXDiff, newYDiff );
-        s1GameObj.setAtTarget( false );
-        s1GameObj.startMoving();
-      }
-      // are these guys both moving?
-      if( s1GameObj.isMoving() && s2GameObj.isMoving() ) {
-        // then get direction
-        var s1Dir = s1GameObj.getDirection();
-        var s2Dir = s2GameObj.getDirection();
-        // turn them slightly away from each other?
-        if( s1Dir > s2Dir ) {
-          s1GameObj.setDirection(s1Dir+0.2);
-          s2GameObj.setDirection(s2Dir-0.2);
-        } else {
-          s1GameObj.setDirection(s1Dir-0.2);
-          s2GameObj.setDirection(s2Dir+0.2);
-        }
-      } else { // one moving and one isnt
-        // get off my shit?
+        var newXDiff = cellToMove.getSprite().position.x  + hiv_game.randomNum(15,30) * goNegX;
+        var newYDiff = cellToMove.getSprite().position.y  + hiv_game.randomNum(5,10) * goNegY;
+        cellToMove.setTarget( newXDiff, newYDiff );
+        cellToMove.startMoving();
+        cellToMove.goNearest( false );
+      //}
       }
     }
-  }
   },
   createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint();
