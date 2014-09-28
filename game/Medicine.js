@@ -1,4 +1,4 @@
-Medicinecine = function() {
+Medicine = function() {
   this.sprite = null;
 };
 Medicine.prototype = {
