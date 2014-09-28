@@ -43,6 +43,9 @@ function loadHivGameHelpers() {
   hiv_game.randomNum = function( start, num ) {
     return Math.floor( Math.random() * num ) + start;
   };
+  hiv_game.randomNumNoStart = function( num ) {
+    return Math.floor( Math.random() * num );
+  };
   hiv_game.gameObjectTypes = [
     "cell",
     "controlpoint"

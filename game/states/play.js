@@ -1,6 +1,7 @@
 function Play() {
   this.jumpStart = null;
   this.tickityTock = 0;
+  this.handleCellControlPtCollisionEnabled = false;
 }
 Play.prototype = {
   create: function() {
@@ -83,34 +84,36 @@ Play.prototype = {
     hiv_game.game.physics.arcade.collide(cpGroup,wbcGroup,this.handleCellControlPtCollision);
   },
   handleCellControlPtCollision: function(spriteOne, spriteTwo) {
-    var s1SpriteType = spriteOne.typeOfSprite;
-    var s2SpriteType = spriteTwo.typeOfSprite;
-    var s1GameObj = spriteOne.gameObject;
-    var s2GameObj = spriteTwo.gameObject;
-    var cell = null;
-    var cp = null;
-    // who is who?
-    if( s1GameObj.type === hiv_game.gameObjectTypes[0] ) {
-      cell = s1GameObj;
-      cp = s2GameObj;
-    } else {
-      cell = s2GameObj;
-      cp = s2GameObj;
+    if( this.handleCellControlPtCollisionEnabled ) {
+      var s1SpriteType = spriteOne.typeOfSprite;
+      var s2SpriteType = spriteTwo.typeOfSprite;
+      var s1GameObj = spriteOne.gameObject;
+      var s2GameObj = spriteTwo.gameObject;
+      var cell = null;
+      var cp = null;
+      // who is who?
+      if( s1GameObj.type === hiv_game.gameObjectTypes[0] ) {
+        cell = s1GameObj;
+        cp = s2GameObj;
+      } else {
+        cell = s2GameObj;
+        cp = s2GameObj;
+      }
+      var cellSprite = cell.getSprite();
+      var cpSprite = cp.getSprite();
+      var cpBounds = cpSprite.getBounds();
+      var cellBounds = cellSprite.getBounds();
+      var cpUpperLeftY = cpBounds.y;
+      var cpUpperLeftX = cpBounds.x;
+      var cpLowerRightY = cpUpperLeftY + cpBounds.height;
+      var cpLowerRightX = cpUpperLeftX + cpBounds.width;
+      var cellUpperLeftY = cellBounds.y;
+      var cellUpperLeftX = cellBounds.x;
+      var cellLowerRightY = cellUpperLeftY + cellBounds.height;
+      var cellLowerRightX = cellUpperLeftX + cellBounds.width;
+      // don't let these shits get under the ctrl point
+      // establish cell position
     }
-    var cellSprite = cell.getSprite();
-    var cpSprite = cp.getSprite();
-    var cpBounds = cpSprite.getBounds();
-    var cellBounds = cellSprite.getBounds();
-    var cpUpperLeftY = cpBounds.y;
-    var cpUpperLeftX = cpBounds.x;
-    var cpLowerRightY = cpUpperLeftY + cpBounds.height;
-    var cpLowerRightX = cpUpperLeftX + cpBounds.width;
-    var cellUpperLeftY = cellBounds.y;
-    var cellUpperLeftX = cellBounds.x;
-    var cellLowerRightY = cellUpperLeftY + cellBounds.height;
-    var cellLowerRightX = cellUpperLeftX + cellBounds.width;
-    // don't let these shits get under the ctrl point
-    // establish cell position
   },
   handleCollision: function(spriteOne, spriteTwo) {
     var s1SpriteType = spriteOne.typeOfSprite;
@@ -121,7 +124,27 @@ Play.prototype = {
     // are they both cells?
     if( s1GameObj.type === hiv_game.gameObjectTypes[0]
       && s1GameObj.type === hiv_game.gameObjectTypes[0] ) {
-      // are these guys moving?
+      // are these guys at the target?
+      if( s1GameObj.isAtTarget() && s2GameObj.isAtTarget() ) {
+        // then why you fighting?
+        // move one target elsewhere
+        var negPosX = hiv_game.randomNumNoStart(2);
+        var negPosY = hiv_game.randomNumNoStart(2);
+        var goNegX = 1;
+        var goNegY = 1;
+        if( negPosX === 1 ) {
+          goNegX = -1;
+        }
+        if( negPosY === 1 ) {
+          goNegY = -1;
+        }
+        var newXDiff = hiv_game.randomNum(10,30) * goNegX;
+        var newYDiff = hiv_game.randomNum(10,30) * goNegY;
+        s1GameObj.setTarget( newXDiff, newYDiff );
+        s1GameObj.setAtTarget( false );
+        s1GameObj.startMoving();
+      }
+      // are these guys both moving?
       if( s1GameObj.isMoving() && s2GameObj.isMoving() ) {
         // then get direction
         var s1Dir = s1GameObj.getDirection();
@@ -134,7 +157,7 @@ Play.prototype = {
           s1GameObj.setDirection(s1Dir-0.2);
           s2GameObj.setDirection(s2Dir+0.2);
         }
-      } else { // not moving
+      } else { // one moving and one isnt
         // get off my shit?
 
       }

@@ -61,6 +61,12 @@ BloodCell.prototype = {
       this.setTarget( pos.x + hiv_game.randomNum(20,45), pos.y + hiv_game.randomNum(20,45) );
     }
   },
+  isAtTarget: function() {
+    return this.atTarget;
+  },
+  setAtTarget: function( bool ) {
+    this.atTarget = bool;
+  },
   setTarget: function(x,y) {
     this.targetX = x;
     this.targetY = y;
