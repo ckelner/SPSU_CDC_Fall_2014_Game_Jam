@@ -17,14 +17,9 @@ Menu.prototype = {
     var style = { font: '65px Arial', fill: '#ffffff', align: 'center'};
     this.sprite = this.game.add.sprite(this.game.world.centerX, 150, 'HIV-virus');
     this.sprite.anchor.setTo(0.5, 0.5);
-
-    /*
-    this.titleText = this.game.add.text(this.game.world.centerX, 400, 'Battle HIV!', style);
-    this.titleText.anchor.setTo(0.5, 0.5);
-    */
       
-      this.sprite = this.game.add.sprite(this.game.world.centerX, 400, 'title3');
-      this.sprite.anchor.setTo(0.5,0.5);
+    this.sprite = this.game.add.sprite(this.game.world.centerX, 400, 'title3');
+    this.sprite.anchor.setTo(0.5,0.5);
 
     this.instructionsText = this.game.add.text(this.game.world.centerX, 600,
       'Click anywhere to play', { font: '16px Arial', fill: '#ffffff', align: 'center'});
@@ -34,7 +29,6 @@ Menu.prototype = {
     if(this.game.input.activePointer.justPressed()) {
       this.game.state.start('play');
     }
-    
     menuHiv.angle += 0.1;
     menuWbc.angle += 0.2;
   }

@@ -25,7 +25,6 @@ Preload.prototype = {
     this.load.image('kick-n-kill-8', 'assets/kick-n-kill-8.png');
     this.load.image('lymph-96', 'assets/lymph-96.png');
     this.load.image('macrophage-64', 'assets/macrophage-64.png');
-    this.load.image('map-tiles', 'assets/map-tiles.png');
     this.load.image('menu-hiv', 'assets/menu-hiv.png');
     this.load.image('menu-wbc', 'assets/menu-wbc.png');
     this.load.image('shield-96', 'assets/shield-96.png');
@@ -33,9 +32,6 @@ Preload.prototype = {
     this.load.image('thymus-96', 'assets/thymus-96.png');
     this.load.image('white-blood-cell-32', 'assets/white-blood-cell-32.png');
     this.load.image('title3', 'assets/title-small-3.png');
-
-    // load the jsons!
-    this.game.load.tilemap('body-map', 'game/map/map.json', null, Phaser.Tilemap.TILED_JSON);
   },
   create: function() {
     this.asset.cropEnabled = false;

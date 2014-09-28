@@ -1,52 +1,33 @@
 BloodCell = function(game) {
-	this.game = game;
-	this.sprite = null;
-	this.moveSpeed = 1;
-	this.destX = 0;
-	this.destY = 0;
+  this.game = game;
+  this.sprite = null;
+  this.moveSpeed = 1;
+  this.destX = 0;
+  this.destY = 0;
 };
-
 BloodCell.prototype = {
-
-	preload: function () {
-
-	},
-
-	create: function (type, x, y) {
-
-		switch (type) {
-			case "white":
-				this.sprite = game.add.sprite(x, y, 'white-blood-cell-32');
-			break;
-			case "hiv":
-				this.sprite = game.add.sprite(x, y, 'hiv');
-			break;
-		}
-
-    this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+  create: function (type, x, y) {
+    switch (type) {
+      case "white":
+        this.sprite = game.add.sprite(x, y, 'white-blood-cell-32');
+      break;
+      case "hiv":
+        this.sprite = game.add.sprite(x, y, 'hiv');
+      break;
+    }
+    this.game.physics.arcade.enable(this.sprite);
+    //this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
     //this.sprite.body.drag.set(100);
     //this.sprite.body.maxVelocity.set(200);
     return this;
-	},
-
-	update: function () {
-		this.goToNearestTarget( this.sprite );
-	},
+  },
+  update: function () {
+    this.goToNearestTarget( this.sprite );
+  },
   goToNearestTarget: function(sprite) {
     var pos = this.findNearestControlPoint( sprite );
-    //var tween = this.game.add.tween( sprite );
-    //tween.to({ x: pos.x, y: pos.y }, 6000);
-    //tween.start();
-    /*if( pos.x === sprite.position.x &&
-      pos.y === sprite.position.y ) {
-      sprite.body.acceleration.set(0);
-    } else {*/
-    //var angle = this.findAngleToTarget( sprite.position, pos );
-    //sprite.rotation = angle;
     sprite.rotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pos);
-   // console.log(angle);
     hiv_game.game.physics.arcade.velocityFromRotation(sprite.rotation, 100, sprite.body.velocity);
-    //}
   },
   findAngleToTarget: function( sprite, target ) {
     var spritePosX = sprite.x;
@@ -67,25 +48,18 @@ BloodCell.prototype = {
       var cpPosX = cp.position.x;
       var cpPosY = cp.position.y;
       var distance = Math.sqrt(Math.pow((cpPosX - spritePosX), 2) + Math.pow((cpPosY - spritePosY), 2));
-      //if( Math.floor(distance) === 0 ) {
-      //  target = cp.position;
-      //} else {
-        if( !bestDistance ) {
+      if( !bestDistance ) {
+        bestDistance = distance;
+      } else {
+        if( bestDistance > distance ) {
           bestDistance = distance;
-        } else {
-          if( bestDistance > distance ) {
-            bestDistance = distance;
-            target = cp.position;
-          }
-        }
-        if( !target ) {
           target = cp.position;
         }
-      //}
+      }
+      if( !target ) {
+        target = cp.position;
+      }
     });
     return target;
-  },
-	moveTo: function (destination) {
-		//game.physics.moveTowardsObject(this.sprite, destination, 100);
-	}
+  }
 };
