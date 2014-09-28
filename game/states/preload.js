@@ -16,10 +16,11 @@ Preload.prototype = {
     this.load.image('b-cell', 'assets/b-cell.png');
     this.load.image('bone-marrow-96', 'assets/bone-marrow-96.png');
     this.load.image('freeze-96', 'assets/freeze-96.png');
+    this.load.image('frozen-32', 'assets/frozen-32.png');
     this.load.image('hit-25x13', 'assets/hit-25x13.png');
     this.load.image('HIV-virus', 'assets/HIV-virus.png');
     this.load.image('hiv', 'assets/hiv.png'); // 32x32
-    this.load.image('hiv', 'assets/kick-n-kill-8.png');
+    this.load.image('kick-n-kill-8', 'assets/kick-n-kill-8.png');
     this.load.image('lymph-96', 'assets/lymph-96.png');
     this.load.image('macrophage-64', 'assets/macrophage-64.png');
     this.load.image('map-tiles', 'assets/map-tiles.png');
