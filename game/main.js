@@ -34,6 +34,7 @@ function loadHivGameHelpers() {
   hiv_game.controlPoints = [];
   hiv_game.wbc = [];
   hiv_game.hiv = [];
+  hiv_game.handleCellControlPtCollisionEnabled = true;
   hiv_game.hivWidthHeight = 32;
   hiv_game.wbcWidthHeight = 32;
   hiv_game.rBackground1 = null;
