@@ -1,13 +1,15 @@
 function Play() {
   this.jumpStart = null;
   this.tickityTock = 0;
+  this.cellCount = 0;
+  this.cellCap = 5000;
 }
 Play.prototype = {
   create: function() {
     this.doThemBackGroundThings();
     hiv_game.game.physics.startSystem( Phaser.Physics.ARCADE );
     // Create contol points
-    this.createControlPoint("thymus", 800, 450)
+    //this.createControlPoint("thymus", 800, 450)
     this.createControlPoint("marrow", 300, 300);
     this.createControlPoint("marrow", 1200, 300);
     this.createControlPoint("lymph", 1200, 700);
@@ -47,14 +49,37 @@ Play.prototype = {
     }
   },
   update: function() {
+    // delete them fatties
+    if( hiv_game.toDelete.length > 0 ) {
+      hiv_game.toDelete.forEach(function(obj){
+        var spritey = obj.spriteToDelete;
+        /*try{
+          spritey.body.destroy();
+          spritey.kill();
+          var indexToD = obj.i;
+          hiv_game.wbc.splice(indexToD,1);
+        } catch( e ) {}
+        */
+        spritey.position.x = -10000;
+        spritey.position.y = -10000;
+        spritey.body.immovable = true;
+      });
+    }
+    hiv_game.toDelete = [];
     // calc the amount of time that has passed and use it to spawn shit
     _jump = hiv_game.game.time.elapsedSince(this.jumpStart)
-    if( (this.tickityTock + 2000) - _jump <= 0 ) {
+    if( (this.tickityTock + 1000) - _jump <= 0 ) {
       this.tickityTock = _jump;
-      this.createWhiteBloodCell();
-      this.createHIV();
-      this.createHIV();
-      this.createHIV();
+      if( this.cellCount <= this.cellCap ) {
+        this.createWhiteBloodCell();
+        this.createWhiteBloodCell();
+        this.createWhiteBloodCell();
+        this.createHIV();
+        this.createHIV();
+        this.createHIV();
+        this.createHIV();
+        this.createHIV();
+      }
       this.backgroundColorChanger();
     }
     var wbcGroup = game.add.group();
@@ -126,74 +151,36 @@ Play.prototype = {
     var s1Dir = s1GameObj.getDirection();
     var s2Dir = s2GameObj.getDirection();
 
-    if (s1SpriteType.type == "controlpoint") {
-      s1GameObj.owner == s2GameObj.cellType;
-    } else if (s2SpriteType.type == "controlpoint") {
-      s2GameObj.owner == s1GameObj.cellType;
+    if (s1SpriteType.spec != s2SpriteType.spec) {
+      hiv_game.toDelete.push(s1GameObj.pvp());
     }
-
-    if (s1SpriteType.type == "cell" && s2SpriteType.type == "cell") {
-      if (s1SpriteType.spec == "white" && s2SpriteType.spec != "white") {
-        s1GameObj.pvp();
-
-      } else if (s1SpriteType.spec == "hiv" && s2SpriteType.spec != "hiv") {
-        s2GameObj.pvp();
-      }
-    }
-
-    //console.log("s1Dir: " + s1Dir + " -- s2Dir: " + s2Dir);
-    // turn them slightly away from each other?
-    if( s1Dir > s2Dir ) {
-      s1Dir
+    // who to move? try to move y?
+    var cellToMove = null;
+    if( s1GameObj.isCellMoving() ) {
+      cellToMove = s1GameObj;
     } else {
-    // FIXME: Kelner -- Don't really need this now w/ two different handlers
-    // are they both cells?
-    if( s1SpriteType.type === hiv_game.gameObjectTypes[0]
-      && s2SpriteType.type === hiv_game.gameObjectTypes[0] ) {
-      // are these guys at the target?arrivedAtTarget
-      /*if(
-        (s1GameObj.isAtTarget() && s2GameObj.isCellMoving()) ||
-        (s1GameObj.isCellMoving() && s2GameObj.isAtTarget())
-       ) {*/
-        // who to move?
-        var cellToMove = null;
-        if( s1GameObj.isCellMoving() ) {
-          cellToMove = s1GameObj;
-        } else {
-          cellToMove = s2GameObj;
-        }
-        // then why you fighting?
-        // move one target elsewhere
-        var negPosX = hiv_game.randomNumNoStart(2);
-        var negPosY = hiv_game.randomNumNoStart(2);
-        var goNegX = 1;
-        var goNegY = 1;
-        if( negPosX === 1 ) {
-          goNegX = -1;
-        }
-        if( negPosY === 1 ) {
-          goNegY = -1;
-        }
-        var newXDiff = cellToMove.getSprite().position.x  + hiv_game.randomNum(15,30) * goNegX;
-        var newYDiff = cellToMove.getSprite().position.y  + hiv_game.randomNum(5,10) * goNegY;
-        cellToMove.setTarget( newXDiff, newYDiff );
-        cellToMove.startMoving();
-        cellToMove.goNearest( false );
-      //}
-      }
+      cellToMove = s2GameObj;
     }
+    // then why you fighting?
+    // move one target elsewhere
+    var negPosX = hiv_game.randomNumNoStart(2);
+    var negPosY = hiv_game.randomNumNoStart(2);
+    var goNegX = 1;
+    var goNegY = 1;
+    if( negPosX === 1 ) {
+      goNegX = -1;
+    }
+    if( negPosY === 1 ) {
+      goNegY = -1;
+    }
+    var newXDiff = cellToMove.getSprite().position.x;
+    var newYDiff = cellToMove.getSprite().position.y  + hiv_game.randomNum(30,50) * goNegY;
+    cellToMove.setTarget( newXDiff, newYDiff );
+    cellToMove.startMoving();
+    //cellToMove.goNearest( false );
   },
   createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint();
-    // un comment for random spots
-    /*var x = hiv_game.randomNum(
-      cPoint.eastWestLaneBuffer,
-      (hiv_game.game.width-(cPoint.eastWestLaneBuffer*2))
-    );
-    var y = hiv_game.randomNum(
-      cPoint.northSouthLaneBuffer,
-      (hiv_game.game.height-(cPoint.northSouthLaneBuffer*2))
-    );*/
     hiv_game.controlPoints.push(
       cPoint.create(type, x, y)
     );
@@ -207,6 +194,7 @@ Play.prototype = {
         hiv_game.randomNum(1, hiv_game.game.height)
       )
     );
+    this.cellCount++;
   },
   createWhiteBloodCell: function() {
     var cell = new BloodCell();
@@ -217,6 +205,7 @@ Play.prototype = {
         hiv_game.randomNum(1, hiv_game.game.height)
       )
     );
+    this.cellCount++;
   },
   backgroundRotate: function() {
     hiv_game.gBackground1.angle += 0.1;

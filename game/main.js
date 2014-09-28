@@ -41,6 +41,7 @@ function loadHivGameHelpers() {
   hiv_game.rBackground2 = null;
   hiv_game.gBackground1 = null;
   hiv_game.gBackground2 = null;
+  hiv_game.toDelete = [];
   hiv_game.randomNum = function( start, num ) {
     return Math.floor( Math.random() * num ) + start;
   };
@@ -61,3 +62,14 @@ function loadHivGameHelpers() {
     "lymph"
   ];
 };
+var guid = (function() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+               .toString(16)
+               .substring(1);
+  }
+  return function() {
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+           s4() + '-' + s4() + s4() + s4();
+  };
+})();
