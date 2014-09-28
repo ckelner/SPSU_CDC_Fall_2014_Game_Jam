@@ -77,9 +77,13 @@ Play.prototype = {
     var s1SpriteType = spriteOne.typeOfSprite;
     var s2SpriteType = spriteTwo.typeOfSprite;
     var s1GameObj = spriteOne.gameObject;
-    var s2GameObj = spriteOne.gameObject;
+    var s2GameObj = spriteTwo.gameObject;
     var s1Dir = s1GameObj.getDirection();
     var s2Dir = s2GameObj.getDirection();
+
+    if (s1SpriteType.type == "controlpoint" || s2SpriteType.type == "controlpoint") {
+      s1GameObj;
+    }
     //console.log("s1Dir: " + s1Dir + " -- s2Dir: " + s2Dir);
     // turn them slightly away from each other?
     if( s1Dir > s2Dir ) {
