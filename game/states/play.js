@@ -61,11 +61,11 @@ Play.prototype = {
   },
   createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint();
-    var x = this.randomNum(
+    var x = hiv_game.randomNum(
       cPoint.eastWestLaneBuffer,
       (hiv_game.game.width-(cPoint.eastWestLaneBuffer*2))
     );
-    var y = this.randomNum(
+    var y = hiv_game.randomNum(
       cPoint.northSouthLaneBuffer,
       (hiv_game.game.height-(cPoint.northSouthLaneBuffer*2))
     );
@@ -79,7 +79,7 @@ Play.prototype = {
       cell.create(
         "hiv",
         (hiv_game.game.width + hiv_game.hivWidthHeight),
-        this.randomNum(1, hiv_game.game.height)
+        hiv_game.randomNum(1, hiv_game.game.height)
       )
     );
   },
@@ -89,11 +89,8 @@ Play.prototype = {
       cell.create(
         "white",
         (0 - hiv_game.wbcWidthHeight),
-        this.randomNum(1, hiv_game.game.height)
+        hiv_game.randomNum(1, hiv_game.game.height)
       )
     );
-  },
-  randomNum: function( start, num ) {
-    return Math.floor( Math.random() * num ) + start;
   }
 };
