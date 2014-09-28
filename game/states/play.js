@@ -1,7 +1,6 @@
 function Play() {
   this.jumpStart = null;
   this.tickityTock = 0;
-  this.handleCellControlPtCollisionEnabled = false;
 }
 Play.prototype = {
   create: function() {
@@ -84,22 +83,24 @@ Play.prototype = {
     hiv_game.game.physics.arcade.collide(cpGroup,wbcGroup,this.handleCellControlPtCollision);
   },
   handleCellControlPtCollision: function(spriteOne, spriteTwo) {
-    if( this.handleCellControlPtCollisionEnabled ) {
+    if( hiv_game.handleCellControlPtCollisionEnabled ) {
       var s1SpriteType = spriteOne.typeOfSprite;
       var s2SpriteType = spriteTwo.typeOfSprite;
       var s1GameObj = spriteOne.gameObject;
       var s2GameObj = spriteTwo.gameObject;
       var cell = null;
       var cp = null;
-      // who is who?
+      // who is who?  this shit does not work - scott
       if( s1GameObj.type === hiv_game.gameObjectTypes[0] ) {
         cell = s1GameObj;
         cp = s2GameObj;
       } else {
         cell = s2GameObj;
-        cp = s2GameObj;
+        cp = s1GameObj;
       }
-      var cellSprite = cell.getSprite();
+      
+      cp.owner = cell.cellType;
+      /*var cellSprite = cell.getSprite();
       var cpSprite = cp.getSprite();
       var cpBounds = cpSprite.getBounds();
       var cellBounds = cellSprite.getBounds();
@@ -110,7 +111,7 @@ Play.prototype = {
       var cellUpperLeftY = cellBounds.y;
       var cellUpperLeftX = cellBounds.x;
       var cellLowerRightY = cellUpperLeftY + cellBounds.height;
-      var cellLowerRightX = cellUpperLeftX + cellBounds.width;
+      var cellLowerRightX = cellUpperLeftX + cellBounds.width;*/
       // don't let these shits get under the ctrl point
       // establish cell position
     }
@@ -120,6 +121,19 @@ Play.prototype = {
     var s2SpriteType = spriteTwo.typeOfSprite;
     var s1GameObj = spriteOne.gameObject;
     var s2GameObj = spriteTwo.gameObject;
+    var s1Dir = s1GameObj.getDirection();
+    var s2Dir = s2GameObj.getDirection();
+
+    if (s1SpriteType.type == "controlpoint") {
+      s1GameObj.owner == s2GameObj.cellType;
+    } else if (s2SpriteType.type == "controlpoint") {
+      s2GameObj.owner == s1GameObj.cellType;
+    }
+    //console.log("s1Dir: " + s1Dir + " -- s2Dir: " + s2Dir);
+    // turn them slightly away from each other?
+    if( s1Dir > s2Dir ) {
+      s1Dir
+    } else {
     // FIXME: Kelner -- Don't really need this now w/ two different handlers
     // are they both cells?
     if( s1SpriteType.type === hiv_game.gameObjectTypes[0]
@@ -154,6 +168,7 @@ Play.prototype = {
         cellToMove.startMoving();
         cellToMove.goNearest( false );
       //}
+      }
     }
   },
   createControlPoint: function(type, x, y) {

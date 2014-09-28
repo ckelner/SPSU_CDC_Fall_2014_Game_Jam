@@ -25,6 +25,7 @@ BloodCell.prototype = {
         this.sprite = hiv_game.game.add.sprite(x, y, 'hiv');
       break;
     }
+    this.cellType = type;
     hiv_game.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
     this.sprite.gameObject = this;
     this.sprite.typeOfSprite = { "type": "cell", "spec": type };
@@ -38,7 +39,7 @@ BloodCell.prototype = {
   update: function () {
     if( !this.atTarget ) {
       if( this.goingForNearestTarget ) {
-        this.goToNearestTarget( this.sprite );
+        this.goToNearestTarget( this.sprite, this.cellType );
       }
       this.move();
     } else {
@@ -51,8 +52,8 @@ BloodCell.prototype = {
   getSprite: function () {
     return this.sprite;
   },
-  goToNearestTarget: function(sprite) {
-    var target = this.findNearestControlPoint( sprite );
+  goToNearestTarget: function(sprite, cellType) {
+    var target = this.findNearestControlPoint( sprite, cellType );
     var pos = target.position;
     this.setTarget( pos.x + hiv_game.randomNum(5,15), pos.y + hiv_game.randomNum(5,15) );
   },
@@ -136,13 +137,13 @@ BloodCell.prototype = {
     this.sprite.rotation = this.direction;
     hiv_game.game.physics.arcade.velocityFromRotation(this.sprite.rotation, this.moveSpeed, this.sprite.body.velocity);
   },
-  findNearestControlPoint: function( sprite ) {
+  findNearestControlPoint: function( sprite, cType ) {
     var spritePosX = sprite.position.x;
     var spritePosY = sprite.position.y;
     var target = null;
     var bestDistance = null;
     hiv_game.controlPoints.forEach(function(cp) {
-      if (cp.owner == "none" || cp.owner != this.cellType) {
+      if (cp.owner == "none" || cp.owner != cType) {
         var cpPosX = cp.getSprite().position.x + cp.getSprite().width/2;
         var cpPosY = cp.getSprite().position.y + cp.getSprite().height/2;
         var distance = Math.sqrt(Math.pow((cpPosX - spritePosX), 2) + Math.pow((cpPosY - spritePosY), 2));
