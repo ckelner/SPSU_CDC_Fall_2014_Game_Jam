@@ -14,10 +14,9 @@ global_whiteBloodCellNum=0;
 global_hivCellArr=[];
 // HIV counter
 global_hivCellNum=0;
-// Control point containers
-var controlPoint = null;
-// Test blood cell
-var testwbc = null;
+// Control point array
+global_controlPointArr=[]
+// Control point count
 // shitty global functions
 function global_findCellObjByIndexValue ( arr, index ) {
   var arrLen = arr.length;
@@ -31,9 +30,11 @@ function global_findCellObjByIndexValue ( arr, index ) {
 
 function Play() {}
 Play.prototype = {
+
   preload: function () {
-    //testwbc = new BloodCell(this.game);
+    
   },
+
   create: function() {
     // load the map
     hiv_game.map.load();
@@ -48,28 +49,24 @@ Play.prototype = {
     controlPoint.create("thymus", 150, 150);
     //testwbc.create("white", 100, 100);
   },
+
   // update loop
   update: function() {
     //testwbc.moveTo(controlPoint.sprite);
   },
-  /*
-  Do this shit later
-  genericCreateThing: function( startHeight, startWidth, spriteName, endHeight,
-    tweenTime, thingIndex, thingArray ) {
-    var sprite = this.game.add.sprite(
-      this.randomNum( startWidth ),
-      startHeight,
-      spriteName
-    );
-    var tween = this.game.add.tween( sprite );
-    tween.to({ y: endHeight }, tweenTime);
-    var thing = {
-      "index": thingIndex,
-      "tween": tween, // tween index
-      "sprite": sprite // the sprite
+
+  createControlPoint: function(id, type, x, y) {
+    var cPoint = new ControlPoint(this.game);
+    cPoint.create(type, x, y);
+
+    var point = {
+      "index": id,
+      "controlPoint": cPoint,
     };
-    thingArray.push( thing );
-  },*/
+    // Store
+    global_controlPointArr.push(point);
+  },
+
   /*
     Creates HIV
   */
@@ -87,6 +84,7 @@ Play.prototype = {
     // ++ bit
     global_hivCellNum++;
   },
+
   /*
     Creates white blood cells
   */
@@ -104,10 +102,12 @@ Play.prototype = {
     // ++ bit
     global_whiteBloodCellNum++;
   },
+
   // generates 1 to "num"
   randomNum: function( num ) {
     return Math.floor( Math.random() * num ) + 1;
   },
+
   // removes WBC
   removeWBC: function() {
     // find WBC index to remove
@@ -123,6 +123,7 @@ Play.prototype = {
       WBC.sprite.destroy( true );
     }
   },
+
   // removes HIV
   removeHIV: function() {
     // find HIV index to remove
