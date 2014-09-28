@@ -1,27 +1,17 @@
-function Play() {}
-var kelnerCell1=null;
-var kelnerCell2=null;
+function Play() {
+  this.jumpStart = null;
+  this.tickityTock = 0;
+}
 Play.prototype = {
   create: function() {
     this.doThemBackGroundThings();
-    //hiv_game.map.load();
     hiv_game.game.physics.startSystem( Phaser.Physics.ARCADE );
-    // how often to spawn white blood cells
-    hiv_game.game.time.events.loop( 1000, this.createWhiteBloodCell, this );
-    // how often to spawn HIV
-    hiv_game.game.time.events.loop( 1000, this.createHIV, this );
     this.createControlPoint("thymus")
     this.createControlPoint("marrow");
     this.createControlPoint("marrow");
     this.createControlPoint("lymph");
     this.createControlPoint("lymph");
-
-    kelnerCell1 = new BloodCell();
-    kelnerCell1.create("white",10,10);
-    kelnerCell2 = new BloodCell();
-    kelnerCell2.create("white",300,10);
-    kelnerCell1.getSprite().body.velocity.x=100;
-    //kelnerCell2.getSprite().body.velocity.x=-100;
+    this.jumpStart = hiv_game.game.time.now;
   },
   doThemBackGroundThings: function() {
     hiv_game.gBackground1 = this.game.add.sprite(this.game.world.centerX,this.game.world.centerY, 'gBackground'); 
@@ -43,21 +33,26 @@ Play.prototype = {
     hiv_game.rBackground2.scale.setTo(3, 3);
   },
   update: function() {
-    hiv_game.game.physics.arcade.collide(kelnerCell1.getSprite(),kelnerCell2.getSprite(),function(){console.log("collided")});
-    var wbcArray = [];
-    var hivArray = [];
+    _jump = hiv_game.game.time.elapsedSince(this.jumpStart)
+    if( (this.tickityTock + 2000) - _jump <= 0 ) {
+      this.tickityTock = _jump;
+      this.createWhiteBloodCell();
+      this.createHIV();
+    }
+    var wbcGroup = game.add.group();
+    var hivGroup = game.add.group();
     hiv_game.wbc.forEach(function(wbc) {
       wbc.update();
-      wbcArray.push(wbc.getSprite());
+      wbcGroup.add(wbc.getSprite());
     });
     hiv_game.hiv.forEach(function(hiv) {
       hiv.update();
-      hivArray.push(hiv.getSprite());
+      hivGroup.add(hiv.getSprite());
     });
 
-    hiv_game.game.physics.arcade.collide(wbcArray,wbcArray,function(){console.log("collided")});
-    hiv_game.game.physics.arcade.collide(hivArray,hivArray,function(){console.log("collided")});
-    hiv_game.game.physics.arcade.collide(wbcArray,hivArray,function(){console.log("collided")});
+    hiv_game.game.physics.arcade.collide(wbcGroup,wbcGroup);
+    hiv_game.game.physics.arcade.collide(hivGroup,hivGroup);
+    hiv_game.game.physics.arcade.collide(wbcGroup,hivGroup);
 
     hiv_game.gBackground1.angle += 0.1;
     hiv_game.gBackground2.angle += 0.2;
@@ -66,11 +61,11 @@ Play.prototype = {
   },
   createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint();
-    var x = this.randomNum(
+    var x = hiv_game.randomNum(
       cPoint.eastWestLaneBuffer,
       (hiv_game.game.width-(cPoint.eastWestLaneBuffer*2))
     );
-    var y = this.randomNum(
+    var y = hiv_game.randomNum(
       cPoint.northSouthLaneBuffer,
       (hiv_game.game.height-(cPoint.northSouthLaneBuffer*2))
     );
@@ -84,7 +79,7 @@ Play.prototype = {
       cell.create(
         "hiv",
         (hiv_game.game.width + hiv_game.hivWidthHeight),
-        this.randomNum(1, hiv_game.game.height)
+        hiv_game.randomNum(1, hiv_game.game.height)
       )
     );
   },
@@ -94,11 +89,8 @@ Play.prototype = {
       cell.create(
         "white",
         (0 - hiv_game.wbcWidthHeight),
-        this.randomNum(1, hiv_game.game.height)
+        hiv_game.randomNum(1, hiv_game.game.height)
       )
     );
-  },
-  randomNum: function( start, num ) {
-    return Math.floor( Math.random() * num ) + start;
   }
 };

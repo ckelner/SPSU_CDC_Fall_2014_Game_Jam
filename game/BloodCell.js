@@ -25,19 +25,17 @@ BloodCell.prototype = {
     return this.sprite;
   },
   goToNearestTarget: function(sprite) {
-    var pos = this.findNearestControlPoint( sprite );
-    sprite.rotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pos);
-    hiv_game.game.physics.arcade.velocityFromRotation(sprite.rotation, 100, sprite.body.velocity);
-  },
-  findAngleToTarget: function( sprite, target ) {
-    var spritePosX = sprite.x;
-    var spritePosY = sprite.y;
-    var targetPosX = target.x;
-    var targetPosY = target.y;
-    var angleRad = Math.atan( (spritePosX * targetPosX + spritePosY * targetPosY) /
-      ( Math.sqrt(spritePosX * spritePosX + spritePosY * spritePosY) * 
-      Math.sqrt(targetPosX * targetPosX + targetPosY * targetPosY) ) );
-    return angleRad * 180 / Math.PI;
+    var target = this.findNearestControlPoint( sprite );
+    var pos = target.position;
+    if( Math.abs(sprite.position.x - pos.x) < 25 && Math.abs(sprite.position.y - pos.y) < 25 ) {
+      sprite.body.velocity = 0;
+    } else {
+      var pt = new Phaser.Point();
+      pt.x = pos.x + hiv_game.randomNum(5,35);
+      pt.y = pos.y + hiv_game.randomNum(5,35);
+      sprite.rotation = hiv_game.game.physics.arcade.angleBetween(sprite.position, pt);
+      hiv_game.game.physics.arcade.velocityFromRotation(sprite.rotation, 100, sprite.body.velocity);
+    }
   },
   findNearestControlPoint: function( sprite ) {
     var spritePosX = sprite.position.x;
@@ -46,8 +44,8 @@ BloodCell.prototype = {
     var bestDistance = null;
     hiv_game.controlPoints.forEach(function(cp) {
       if (cp.owner == "none" || cp.owner != this.cellType) {
-        var cpPosX = cp.getSprite().position.x;
-        var cpPosY = cp.getSprite().position.y;
+        var cpPosX = cp.getSprite().position.x + cp.getSprite().width/2;
+        var cpPosY = cp.getSprite().position.y + cp.getSprite().height/2;
         var distance = Math.sqrt(Math.pow((cpPosX - spritePosX), 2) + Math.pow((cpPosY - spritePosY), 2));
       }
       if( !bestDistance ) {
@@ -55,11 +53,11 @@ BloodCell.prototype = {
       } else {
         if( bestDistance > distance ) {
           bestDistance = distance;
-          target = cp.getSprite().position;
+          target = cp.getSprite();
         }
       }
       if( !target ) {
-        target = cp.getSprite().position;
+        target = cp.getSprite();
       }
     });
     return target;

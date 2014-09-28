@@ -18,6 +18,7 @@ ControlPoint.prototype = {
         this.sprite = hiv_game.game.add.sprite(x, y, 'lymph-96');
       break;
     }
+    this.sprite.anchor.setTo(0.5,0.5);
     return this;
   },
   update: function () {},
