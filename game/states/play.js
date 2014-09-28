@@ -13,6 +13,8 @@ Play.prototype = {
     // Create contol points
     this.createControlPoint("thymus")
     this.createControlPoint("marrow");
+    this.createControlPoint("marrow");
+    this.createControlPoint("lymph");
     this.createControlPoint("lymph");
   },
   update: function() {
@@ -23,7 +25,7 @@ Play.prototype = {
       hiv.update();
     });
   },
-  createControlPoint: function(type) {
+  createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint(this.game);
     var x = this.randomNum(
       cPoint.eastWestLaneBuffer,
@@ -41,9 +43,9 @@ Play.prototype = {
     var cell = new BloodCell(this.game);
     hiv_game.hiv.push(
       cell.create(
-        "hiv",600,600
-        //(hiv_game.game.width + hiv_game.hivWidthHeight),
-        //this.randomNum(1, hiv_game.game.height)
+        "hiv",
+        (hiv_game.game.width + hiv_game.hivWidthHeight),
+        this.randomNum(1, hiv_game.game.height)
       )
     );
   },
@@ -51,9 +53,9 @@ Play.prototype = {
     var cell = new BloodCell(this.game);
     hiv_game.wbc.push(
       cell.create(
-        "white",500, 500
-        //(0 - hiv_game.wbcWidthHeight),
-        //this.randomNum(1, hiv_game.game.height)
+        "white",
+        (0 - hiv_game.wbcWidthHeight),
+        this.randomNum(1, hiv_game.game.height)
       )
     );
   },
