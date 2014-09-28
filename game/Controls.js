@@ -1,13 +1,12 @@
-Controls = function(game) {
-  this.game = game;
+Controls = function() {
   this.cursors = null;
 };
 Controls.prototype = {
   create: function () {
-    this.cursors = game.input.keyboard.createCursorKeys();
+    this.cursors = hiv_game.game.input.keyboard.createCursorKeys();
   },
   update: function () {
-    if (game.input.activePointer.isDown) {
+    if (hiv_game.game.input.activePointer.isDown) {
       // do something
     }
   }

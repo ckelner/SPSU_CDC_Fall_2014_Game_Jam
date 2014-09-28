@@ -1,5 +1,4 @@
-BloodCell = function(game) {
-  this.game = game;
+BloodCell = function() {
   this.sprite = null;
   this.moveSpeed = 1;
   this.destX = 0;
@@ -10,20 +9,20 @@ BloodCell.prototype = {
   create: function (type, x, y) {
     switch (type) {
       case "white":
-        this.sprite = game.add.sprite(x, y, 'white-blood-cell-32');
+        this.sprite = hiv_game.game.add.sprite(x, y, 'white-blood-cell-32');
       break;
       case "hiv":
-        this.sprite = game.add.sprite(x, y, 'hiv');
+        this.sprite = hiv_game.game.add.sprite(x, y, 'hiv');
       break;
     }
-    this.game.physics.arcade.enable(this.sprite);
-    //this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-    //this.sprite.body.drag.set(100);
-    //this.sprite.body.maxVelocity.set(200);
+    hiv_game.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
     return this;
   },
   update: function () {
     this.goToNearestTarget( this.sprite );
+  },
+  getSprite: function () {
+    return this.sprite;
   },
   goToNearestTarget: function(sprite) {
     var pos = this.findNearestControlPoint( sprite );

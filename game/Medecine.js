@@ -1,5 +1,4 @@
-Medecine = function(game) {
-  this.game = game;
+Medecine = function() {
   this.sprite = null;
 };
 Medecine.prototype = {

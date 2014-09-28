@@ -16,7 +16,7 @@ window.onload = function () {
   loadHivGameHelperVars();
 };
 function loadControls() {
-  hiv_game.controls = new Controls(game);
+  hiv_game.controls = new Controls();
 }
 function loadHivGameHelperVars() {
   hiv_game.controlPoints = [];
