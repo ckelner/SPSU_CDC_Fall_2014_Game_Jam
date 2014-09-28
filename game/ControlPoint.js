@@ -21,6 +21,8 @@ ControlPoint.prototype = {
     this.sprite.anchor.setTo(0.5,0.5);
     hiv_game.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
     this.sprite.body.immovable = true;
+    this.sprite.gameObject = this;
+    this.sprite.typeOfSprite = { "type": "controlpoint", "spec": type };
     return this;
   },
   update: function () {},

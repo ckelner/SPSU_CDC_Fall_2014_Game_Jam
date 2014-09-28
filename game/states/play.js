@@ -46,6 +46,7 @@ Play.prototype = {
     this.createControlPoint("lymph", 0, 830);
   },
   update: function() {
+    // calc the amount of time that has passed and use it to spawn shit
     _jump = hiv_game.game.time.elapsedSince(this.jumpStart)
     if( (this.tickityTock + 2000) - _jump <= 0 ) {
       this.tickityTock = _jump;
@@ -68,20 +69,30 @@ Play.prototype = {
       cp.update();
       cpGroup.add(cp.getSprite());
     });
+    this.performCollisions(wbcGroup,hivGroup,cpGroup);
+    this.backgroundRotate();
+  },
+  performCollisions: function(wbcGroup,hivGroup,cpGroup) {
+    hiv_game.game.physics.arcade.collide(wbcGroup,wbcGroup,this.handleCollision);
+    hiv_game.game.physics.arcade.collide(hivGroup,hivGroup,this.handleCollision);
+    hiv_game.game.physics.arcade.collide(wbcGroup,hivGroup,this.handleCollision);
 
-    hiv_game.game.physics.arcade.collide(wbcGroup,wbcGroup);
-    hiv_game.game.physics.arcade.collide(hivGroup,hivGroup);
-    hiv_game.game.physics.arcade.collide(wbcGroup,hivGroup);
     try {
-      hiv_game.game.physics.arcade.collide(cpGroup,hivGroup);
-      hiv_game.game.physics.arcade.collide(cpGroup,wbcGroup);
+      hiv_game.game.physics.arcade.collide(cpGroup,hivGroup,this.handleCollision);
+      hiv_game.game.physics.arcade.collide(cpGroup,wbcGroup,this.handleCollision);
     } catch (e) {
       // sometimes it is a turd?
       console.log("Exception: " + e.message);
     }
-
-    this.backgroundRotate();
-    
+  },
+  handleCollision: function(spriteOne, spriteTwo) {
+    var s1SpriteType = spriteOne.typeOfSprite;
+    var s2SpriteType = spriteTwo.typeOfSprite;
+    var s1GameObj = spriteOne.gameObject;
+    var s2GameObj = spriteOne.gameObject;
+    var s1Dir = s1GameObj.getDirection();
+    var s2Dir = s2GameObj.getDirection();
+    console.log("s1Dir: " + s1Dir + " -- s2Dir: " + s2Dir);
   },
   createControlPoint: function(type, x, y) {
     var cPoint = new ControlPoint();
